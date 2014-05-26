@@ -561,6 +561,16 @@ public class QuellenSteuer {
 				if(discriminator.length == 1) {
 					Collections.sort(ssls);
 					System.out.println(ssls.toString());
+					
+					/*
+					 * Test von Ausgabe der BFS Nummer um Kanton zu erhalten
+					 */
+					// 	private static List<Gemeinde> gems = new LinkedList<Gemeinde>();
+//					for ( Gemeinde m : gems ) {
+//						int p = m.getBfs();
+//						System.out.println( p );
+//					}
+					
 				}
 				else {
 						

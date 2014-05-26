@@ -74,12 +74,22 @@ public class SSL implements Comparable{
 			public int compare(Object o1, Object o2) {
 				SSL s1 = (SSL)o1;
 				SSL s2 = (SSL)o2;
-				
 				// Sitz noch vergleichen. Wiso int? entspricht dies der BFS Nr.?
-				int cmp;
-//				int cmp = s1.Name.compareTo(s2.Name);
-//				if (cmp != 0)
-//					return cmp;
+
+				/*
+				 * Test von Auslesen des Kantons
+				 */
+//				System.out.println("s1 Sitz " + s1.Sitz);
+//				System.out.println("s2 Sitz " + s2.Sitz);
+//				Gemeinde.getGemeinde(s1.Sitz)
+//				for ( Gemeinde m : Gemeinde ) {
+//					int p = m.getBfs();
+//					System.out.println( p );
+//				}
+				
+				int cmp = s1.Sitz - s2.Sitz;
+				if (cmp != 0)
+					return cmp;
 				
 				cmp = s1.Firmenname.compareTo(s2.Firmenname);
 				if (cmp != 0)
@@ -100,6 +110,20 @@ public class SSL implements Comparable{
 
 	public int compareTo(Object o) {
 		SSL that = (SSL)o;
-		return this.getID() - that.getID();
+		
+		int cmp = this.Firmenname.compareTo(that.Firmenname);
+		if (cmp != 0)
+			return cmp;
+		
+		cmp = this.Sitz - that.Sitz;
+		if (cmp != 0)
+			return cmp;
+		
+		return 0;
+		/*
+		 * Auskommentiert. compareTo wird ja für die Standardsortierung vewendet. ID gibt es ja
+		 * bereits eine oder?
+		 */
+		//return this.getID() - that.getID();
 	}	   
 }
