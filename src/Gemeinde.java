@@ -51,7 +51,7 @@ public class Gemeinde implements Comparable {
    }
    
    public double steuerGemeinde() {
-      return 0.0;
+	   return 0.0;
    }
    public double steuerKanton() {
     return this.kanton.steuerSatz();

@@ -570,7 +570,6 @@ public class QuellenSteuer {
 					}
 				}
 			}
-				
 			
 			else if (discriminator[0] == "ABR"
 					|| discriminator[0].equals(ABR.DISCRIMINATOR)) {
