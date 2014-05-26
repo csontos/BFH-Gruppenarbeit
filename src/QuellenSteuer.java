@@ -383,18 +383,18 @@ public class QuellenSteuer {
 	     				waitforInput(new String[0]);
 	     			}
 	     			
-	     			int bfsid = 0;
+	     			int qupsid = 0;
      				try{
-     					bfsid = Integer.parseInt(discriminator[2]);
+     					qupsid = Integer.parseInt(discriminator[2]);
      				} 
      				catch (RuntimeException re) {
-     					System.out.println("BFS ID hat kein valides Format");
+     					System.out.println("Die QUP ID hat kein valides Format");
      					waitforInput(new String[0]);
      				}
 	     			
 	     			for(int i = 0; i < qups.size(); i++){
-	     				if(gems.get(i).getBfs() == bfsid){
-	     					gems.remove(gems.get(i));
+	     				if(qups.get(i).getID() == qupsid){
+	     					qups.remove(qups.get(i));
 	     				}
 	     			}
 	     		}
@@ -402,7 +402,7 @@ public class QuellenSteuer {
 	      	} else if (discriminator[0] == "SSL" || discriminator[0].equals(SSL.DISCRIMINATOR)) {
 	     	
 	      		if(discriminator.length == 1){
-	     			for(int i = 0; i < qups.size(); i++){
+	     			for(int i = 0; i < ssls.size(); i++){
 	     				boolean match = false;
 	     					
 	     				for(int j = 0; j < qups.size(); j++){
@@ -411,7 +411,7 @@ public class QuellenSteuer {
 	     				}
 	     					
 	     				if(match == false){
-	     					qups.remove(i);
+	     					ssls.remove(i);
 	     				}
 	     			}
 	     		}
@@ -421,18 +421,18 @@ public class QuellenSteuer {
 	     				waitforInput(new String[0]);
 	     			}
 	     			
-	     			int bfsid = 0;
+	     			int sslid = 0;
      				try{
-     					bfsid = Integer.parseInt(discriminator[2]);
+     					sslid = Integer.parseInt(discriminator[2]);
      				} 
      				catch (RuntimeException re) {
-     					System.out.println("BFS ID hat kein valides Format");
+     					System.out.println("SSL ID hat kein valides Format");
      					waitforInput(new String[0]);
      				}
 	     			
-	     			for(int i = 0; i < qups.size(); i++){
-	     				if(gems.get(i).getBfs() == bfsid){
-	     					gems.remove(gems.get(i));
+	     			for(int i = 0; i < ssls.size(); i++){
+	     				if(ssls.get(i).getID() == sslid){
+	     					ssls.remove(ssls.get(i));
 	     				}
 	     			}
 	     		}
@@ -440,16 +440,16 @@ public class QuellenSteuer {
 	      	} else if (discriminator[0] == "ABR" || discriminator[0].equals(ABR.DISCRIMINATOR)) {
 	     	
 	      		if(discriminator.length == 1){
-	     			for(int i = 0; i < qups.size(); i++){
+	     			for(int i = 0; i < abrs.size(); i++){
 	     				boolean match = false;
 	     					
-	     				for(int j = 0; j < qups.size(); j++){
+	     				for(int j = 0; j < abrs.size(); j++){
 	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
 	     						match = true;
 	     				}
 	     					
 	     				if(match == false){
-	     					qups.remove(i);
+	     					abrs.remove(i);
 	     				}
 	     			}
 	     		}
@@ -459,18 +459,18 @@ public class QuellenSteuer {
 	     				waitforInput(new String[0]);
 	     			}
 	     			
-	     			int bfsid = 0;
+	     			int abrid = 0;
      				try{
-     					bfsid = Integer.parseInt(discriminator[2]);
+     					abrid = Integer.parseInt(discriminator[2]);
      				} 
      				catch (RuntimeException re) {
-     					System.out.println("BFS ID hat kein valides Format");
+     					System.out.println("ABR ID hat kein valides Format");
      					waitforInput(new String[0]);
      				}
 	     			
-	     			for(int i = 0; i < qups.size(); i++){
-	     				if(gems.get(i).getBfs() == bfsid){
-	     					gems.remove(gems.get(i));
+	     			for(int i = 0; i < abrs.size(); i++){
+	     				if(abrs.get(i).getID() == abrid){
+	     					abrs.remove(abrs.get(i));
 	     				}
 	     			}
 	     		}
