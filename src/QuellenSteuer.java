@@ -1,6 +1,6 @@
 /*
 Klasse: QuellenSteuer
-Beschreibung: 
+Beschreibung:  Das ist ein Test
 
  */
 
