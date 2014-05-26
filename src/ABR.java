@@ -22,12 +22,12 @@ public class ABR implements Comparable{
 	final static Comparator ABR_id = new ABRidComp();
 	
 	 public ABR(int iD, QUP qup, SSL ssl, int jahr, int monat, double bruttolohn) {
-		ID = iD;
-		Bruttolohn = bruttolohn;
-		Qup = qup;
-		Ssl = ssl;
-		Jahr = jahr;
-		Monat = monat;
+		this.ID = iD;
+		this.Bruttolohn = bruttolohn;
+		this.Qup = qup;
+		this.Ssl = ssl;
+		this.Jahr = jahr;
+		this.Monat = monat;
 	}
 	
 	public int getID() {

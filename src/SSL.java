@@ -9,9 +9,9 @@ Beschreibung: Das ist die Klasse für Arbeitgeber SSL= Schuldner steruerbarer Lei
 */
 public class SSL implements Comparable{
 	public final static String DISCRIMINATOR = "SSL";
-	private static int ID; //wenn es diese nicht gibt, setzen
-	private static String Firmenname;
-	private static int Sitz;
+	private int ID; //wenn es diese nicht gibt, setzen
+	private String Firmenname;
+	private int Sitz;
 	
 	final static Comparator SSL_id = new SSLidComp();
 	final static Comparator SSL_K = new SSLkComp();
