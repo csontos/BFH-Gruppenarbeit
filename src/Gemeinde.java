@@ -1,5 +1,5 @@
 /*
-Klasse:
+Klasse: Gemeinde
 Beschreibung: 
 
 */

@@ -2,7 +2,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Comparator;
 /*
- Klasse:
+ Klasse: QUP
  Beschreibung: Das ist die Klasse für den Quellensteuerpflichten (QUP)
 
  */
