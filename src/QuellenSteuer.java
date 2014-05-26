@@ -417,6 +417,8 @@ public class QuellenSteuer {
 				if(discriminator.length == 1){
 					Collections.sort(gems);
 					System.out.println(gems.toString());
+					//debug, test von Ausgabe Kanton
+					System.out.println(Kanton.BE.steuerSatz());
 				}
 				else {
 					
