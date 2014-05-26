@@ -340,7 +340,7 @@ public class QuellenSteuer {
 	     		
 	     		else if(discriminator[1].equals("bfs")){
 	     			if(discriminator.length != 3){
-	     				System.out.println("Keine BFS Nummer eingegeben. Bitt geben Sie einen Befehl im Format GEM bfs <BFS NR>");
+	     				System.out.println("Keine BFS Nummer eingegeben. Bitte geben Sie einen Befehl im Format GEM bfs <BFS NR> ein");
 	     				waitforInput(new String[0]);
 	     			}
 	     			
@@ -362,9 +362,121 @@ public class QuellenSteuer {
 	          
 	     	} else if (discriminator[0] == "QUP" || discriminator[0].equals(QUP.DISCRIMINATOR)) {
 	     		
-	     		//ToDo: QUP löschen handhaben
+	     		if(discriminator.length == 1){
+	     			for(int i = 0; i < qups.size(); i++){
+	     				boolean match = false;
+	     					
+	     				for(int j = 0; j < qups.size(); j++){
+	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
+	     						match = true;
+	     				}
+	     					
+	     				if(match == false){
+	     					qups.remove(i);
+	     				}
+	     			}
+	     		}
 	     		
-	      	} else {
+	     		else if(discriminator[1].equals("id")){
+	     			if(discriminator.length != 3){
+	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format QUP ID <ID> ein");
+	     				waitforInput(new String[0]);
+	     			}
+	     			
+	     			int bfsid = 0;
+     				try{
+     					bfsid = Integer.parseInt(discriminator[2]);
+     				} 
+     				catch (RuntimeException re) {
+     					System.out.println("BFS ID hat kein valides Format");
+     					waitforInput(new String[0]);
+     				}
+	     			
+	     			for(int i = 0; i < qups.size(); i++){
+	     				if(gems.get(i).getBfs() == bfsid){
+	     					gems.remove(gems.get(i));
+	     				}
+	     			}
+	     		}
+	     		
+	      	} else if (discriminator[0] == "SSL" || discriminator[0].equals(SSL.DISCRIMINATOR)) {
+	     	
+	      		if(discriminator.length == 1){
+	     			for(int i = 0; i < qups.size(); i++){
+	     				boolean match = false;
+	     					
+	     				for(int j = 0; j < qups.size(); j++){
+	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
+	     						match = true;
+	     				}
+	     					
+	     				if(match == false){
+	     					qups.remove(i);
+	     				}
+	     			}
+	     		}
+	      		else if(discriminator[1].equals("id")){
+	     			if(discriminator.length != 3){
+	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format SSL ID <ID> ein");
+	     				waitforInput(new String[0]);
+	     			}
+	     			
+	     			int bfsid = 0;
+     				try{
+     					bfsid = Integer.parseInt(discriminator[2]);
+     				} 
+     				catch (RuntimeException re) {
+     					System.out.println("BFS ID hat kein valides Format");
+     					waitforInput(new String[0]);
+     				}
+	     			
+	     			for(int i = 0; i < qups.size(); i++){
+	     				if(gems.get(i).getBfs() == bfsid){
+	     					gems.remove(gems.get(i));
+	     				}
+	     			}
+	     		}
+	      		
+	      	} else if (discriminator[0] == "ABR" || discriminator[0].equals(ABR.DISCRIMINATOR)) {
+	     	
+	      		if(discriminator.length == 1){
+	     			for(int i = 0; i < qups.size(); i++){
+	     				boolean match = false;
+	     					
+	     				for(int j = 0; j < qups.size(); j++){
+	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
+	     						match = true;
+	     				}
+	     					
+	     				if(match == false){
+	     					qups.remove(i);
+	     				}
+	     			}
+	     		}
+	      		else if(discriminator[1].equals("id")){
+	     			if(discriminator.length != 3){
+	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format ABR ID <ID> ein");
+	     				waitforInput(new String[0]);
+	     			}
+	     			
+	     			int bfsid = 0;
+     				try{
+     					bfsid = Integer.parseInt(discriminator[2]);
+     				} 
+     				catch (RuntimeException re) {
+     					System.out.println("BFS ID hat kein valides Format");
+     					waitforInput(new String[0]);
+     				}
+	     			
+	     			for(int i = 0; i < qups.size(); i++){
+	     				if(gems.get(i).getBfs() == bfsid){
+	     					gems.remove(gems.get(i));
+	     				}
+	     			}
+	     		}
+	      		
+	      		
+	      	}	else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
 	     	System.out.println("Anzahl der Zeilen: " + line_ct);
