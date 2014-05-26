@@ -452,15 +452,14 @@ public class QuellenSteuer {
 	     					abrs.remove(i);
 	     				}
 	     			}
-	     		}
-	      		else if(discriminator[1].equals("id")){
+	     		} else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format ABR ID <ID> ein");
 	     				waitforInput(new String[0]);
 	     			}
 	     			
 	     			int abrid = 0;
-     				try{
+     				try {
      					abrid = Integer.parseInt(discriminator[2]);
      				} 
      				catch (RuntimeException re) {
@@ -468,14 +467,12 @@ public class QuellenSteuer {
      					waitforInput(new String[0]);
      				}
 	     			
-	     			for(int i = 0; i < abrs.size(); i++){
-	     				if(abrs.get(i).getID() == abrid){
+	     			for(int i = 0; i < abrs.size(); i++) {
+	     				if(abrs.get(i).getID() == abrid) {
 	     					abrs.remove(abrs.get(i));
 	     				}
 	     			}
 	     		}
-	      		
-	      		
 	      	}	else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
@@ -544,7 +541,7 @@ public class QuellenSteuer {
 			}
 			
 
-			if (discriminator[0] == "QUP"
+			else if (discriminator[0] == "QUP"
 					|| discriminator[0].equals(QUP.DISCRIMINATOR)) {
 				if(discriminator.length == 1){
 					Collections.sort(qups);
@@ -557,50 +554,49 @@ public class QuellenSteuer {
 						System.out.println(qups.toString());
 					}
 				}
+			}
 				
-				if (discriminator[0] == "SSL"
+			else if (discriminator[0] == "SSL"
 						|| discriminator[0].equals(SSL.DISCRIMINATOR)) {
-					if(discriminator.length == 1){
-						Collections.sort(ssls);
+				if(discriminator.length == 1) {
+					Collections.sort(ssls);
+					System.out.println(ssls.toString());
+				}
+				else {
+						
+					if (discriminator[1].equals("k")) {
+						Collections.sort(ssls, SSL.SSL_K);
 						System.out.println(ssls.toString());
 					}
-					else {
-						
-						if (discriminator[1].equals("k")) {
-							Collections.sort(ssls, SSL.SSL_K);
-							System.out.println(ssls.toString());
-						}
-					}
 				}
+			}
 				
 			
-				if (discriminator[0] == "ABR"
+			else if (discriminator[0] == "ABR"
 					|| discriminator[0].equals(ABR.DISCRIMINATOR)) {
-					if(discriminator.length == 1){
-						Collections.sort(ssls);
-						System.out.println(ssls.toString());
-					}
-					else {
-						if (discriminator[1].equals("k")) {
-							Collections.sort(ssls, SSL.SSL_K);
-							System.out.println(ssls.toString());
-						}
+				if(discriminator.length == 1){
+					Collections.sort(abrs);
+					System.out.println(abrs.toString());
+				}
+				/*
+				 * Hier noch nach "show ABR kanton_kuerel" implementieren
+				 * Anzeige aller Abrechnungen mit steuerl. relev. Sitz im Kanton
+				 */
+				else {
+					if (discriminator[1].equals("k")) {
+						Collections.sort(abrs, ABR.ABR_id); // muss noch implementiert werden, daher vorerst ABR_id damit kein Fehler kommt
+						System.out.println(abrs.toString());
 					}
 				}
 				
+			} else {
+				System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 			}
-			/*
-			 * else if (discriminator[1].equals("id")){ // Hier nach
-			 * kanton_kürzel abfragen }
-			 */
+		}
 
-			else {
-				System.out.println("Parsing error. Kein gültiger Discriminator: "
-								+ discriminator);
-			}
+
 			System.out.println("Anzahl der Zeilen: " + line_ct);
 			System.out.println("Anzahl der Datensätze: " + imp_ct);
-		}
 	}
 
 	
