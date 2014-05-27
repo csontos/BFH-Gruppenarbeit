@@ -497,10 +497,7 @@ public class QuellenSteuer {
 	
 	
 	private static void stat(Scanner sc) {
-		  int line_ct = 0;
-	      int imp_ct = 0;
-	      
-	      String line = "";
+		 String line = "";
 	      
 	      while( true ) {
 	         System.out.println("Eingabe:");
@@ -515,20 +512,52 @@ public class QuellenSteuer {
 	            continue;
 	         if( line.charAt(0)==EOF_CHAR )
 	            break;
-	         
-	         line_ct++;
 
 	        String[] discriminator = line.split(" ");
-
-	     	if (discriminator[0] == "Bund") {
-	     		System.out.println("Hier wird die Statiskit ausgegeben");
+	        
+	        //Qups und Abrs nach ID sortieren, so dass der Vergleich schneller gemacht werden kann
+	        //!!! prüfen ob das am Schluss wirklich gebraucht wird -> währe für performance Steigerung
+	        Collections.sort(qups, QUP.QUP_id);
+	        Collections.sort(abrs, ABR.ABR_bfs);
+	        
+	     	if (discriminator[0].equals("BUND")) {
 	     		
-	          
+	     		if((discriminator.length > 2)||(discriminator.length < 1)){
+	     			System.out.println("falsche Anzahl von Argumenten für BUND angegeben");
+	     			waitforInput(new String[0]);
+	     		}
+
+	     		double SummeBruttolohn = 0.0;
+	     		double QuellensteuerBund = 0.0;
+	     		int year = 0;
+	     		
+	     		//Falls ein Jahr angegeben wurde wird dieses in die Year Variabel gespeichert. Ansonsten behält die Variabel den Wert 0
+	     		if(discriminator.length == 2){
+	     			try{
+	     				year = Integer.parseInt(discriminator[1]);
+	     			} catch(RuntimeException re){
+	     				System.out.println("Kein gültiges Jahresformat angegeben");
+	     				waitforInput(new String[0]);
+	     			}
+	     		}
+	     		
+	     		//Durch Alle Arechnungen iterieren, mit ausgewählten Jahr vergleichen und Bruttolohn zusammenzählen
+	     		//Ist kein Jahr gewählt werden alle Löhne unabhängig vom Jahr zusammengezählt, da Variabel Year den Wert 0 enthält
+	     		for(int i = 0; i < abrs.size(); i++){
+	     			if((abrs.get(i).getJahr() == year)||(year == 0)){
+	     				SummeBruttolohn = SummeBruttolohn + abrs.get(i).getBruttolohn();
+	     			}
+	     		}
+	     		
+	     		System.out.println("Summe Bruttolohn: " + SummeBruttolohn);
+	     		
+	     		QuellensteuerBund = SummeBruttolohn * 0.01;
+	     		
+	     		System.out.println("Quellensteuer Bund: " + QuellensteuerBund);
+	     		
 	     	} else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
-	     	System.out.println("Anzahl der Zeilen: " + line_ct);
-	     	System.out.println("Anzahl der Datensätze: " + imp_ct);
 	   }
 		
 		//ToDo: Prüfung für alle Argumente

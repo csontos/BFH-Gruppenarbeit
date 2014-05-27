@@ -20,6 +20,7 @@ public class ABR implements Comparable{
 	private int Monat;
 	
 	final static Comparator ABR_id = new ABRidComp();
+	final static Comparator ABR_bfs = new ABRbfsComp();
 	
 	 public ABR(int iD, QUP qup, SSL ssl, int jahr, int monat, double bruttolohn) {
 		this.ID = iD;
@@ -36,6 +37,10 @@ public class ABR implements Comparable{
 
 	public double getBruttolohn() {
 		return Bruttolohn;
+	}
+	
+	public int getJahr() {
+		return Jahr;
 	}
 
 	
@@ -131,6 +136,16 @@ public class ABR implements Comparable{
 				ABR a2 = (ABR)o2;
 				
 				return a1.ID - a2.ID;
+			}
+
+		}
+	   
+	   static class ABRbfsComp implements Comparator {
+			public int compare(Object o1, Object o2) {
+				ABR a1 = (ABR)o1;
+				ABR a2 = (ABR)o2;
+				
+				return a1.Qup.getID() - a2.Qup.getID();
 			}
 
 		}
