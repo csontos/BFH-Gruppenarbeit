@@ -131,8 +131,6 @@ public class QuellenSteuer {
 
 			show(sc);
 
-//			if (sc != null)
-//				sc.close();
 		} else if (cmd.equals("del")) {
 			String discriminator = null;
 			
@@ -147,9 +145,22 @@ public class QuellenSteuer {
 			//Del Funktion aufrufen
 			del(sc);
 			
-		}
-
-		else {
+		} else if (cmd.equals("stat")) {
+			String discriminator = null;
+			
+			Scanner sc = null;
+			sc = new Scanner(System.in);
+			
+			if ((args.length < 1)&&(args.length < 2)) {
+				System.out.println("Falsche Anzahl von Argumenten für stat.");
+				waitforInput(new String[0]);
+			}
+			
+			//Del Funktion aufrufen
+			stat(sc);
+			
+			
+		} else {
 			System.out.println("Falsche Argumentliste");
 		}
 		
@@ -485,6 +496,46 @@ public class QuellenSteuer {
 	}
 	
 	
+	private static void stat(Scanner sc) {
+		  int line_ct = 0;
+	      int imp_ct = 0;
+	      
+	      String line = "";
+	      
+	      while( true ) {
+	         System.out.println("Eingabe:");
+	         line = sc.nextLine();
+	         
+	         if( line==null )
+	            break;
+	         /*
+	          * Leere Zeilen oder Kommentarzeilen ignorieren
+	          */
+	         if (line.length() == 0 || line.charAt(0) == '#')
+	            continue;
+	         if( line.charAt(0)==EOF_CHAR )
+	            break;
+	         
+	         line_ct++;
+
+	        String[] discriminator = line.split(" ");
+
+	     	if (discriminator[0] == "Bund") {
+	     		System.out.println("Hier wird die Statiskit ausgegeben");
+	     		
+	          
+	     	} else {
+	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
+	     	}
+	     	System.out.println("Anzahl der Zeilen: " + line_ct);
+	     	System.out.println("Anzahl der Datensätze: " + imp_ct);
+	   }
+		
+		//ToDo: Prüfung für alle Argumente
+		
+	}
+
+	
 	private static void show(Scanner sc) {
 		// Abbruchbedingungen definieren
 		int line_ct = 0;
@@ -603,9 +654,9 @@ public class QuellenSteuer {
 			}
 		}
 
-
-			System.out.println("Anzahl der Zeilen: " + line_ct);
-			System.out.println("Anzahl der Datensätze: " + imp_ct);
+		//Prüfen ob und wie es das braucht
+		System.out.println("Anzahl der Zeilen: " + line_ct);
+		System.out.println("Anzahl der Datensätze: " + imp_ct);
 	}
 
 	
