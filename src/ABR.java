@@ -53,7 +53,7 @@ public class ABR implements Comparable{
 				} else {
 					Collections.sort(QuellenSteuer.getAbrs(), ABR.ABR_id);
 					int LargestId = QuellenSteuer.getAbrs().get(QuellenSteuer.getAbrs().size()-1).getID();				
-					NewID = LargestId++;
+					NewID = LargestId + 1;
 				}
 		   		
 		   		tmpq = Integer.parseInt(values.get(0));
@@ -76,7 +76,6 @@ public class ABR implements Comparable{
 		   		  
 		   		  SSL s = null;
 		   		  for(int i = 0; i < QuellenSteuer.getSsls().size(); i++){
-		   			  System.out.println("SSL: " + QuellenSteuer.getSsls().get(i));
 		   			  if(QuellenSteuer.getSsls().get(i).getID() == tmps)
 		   				s = QuellenSteuer.getSsls().get(i);
 		   		  }
