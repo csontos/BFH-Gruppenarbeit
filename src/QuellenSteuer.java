@@ -365,8 +365,16 @@ public class QuellenSteuer {
      				}
 	     			
 	     			for(int i = 0; i < gems.size(); i++){
+	     				boolean match = false;
+     					
+	     				for(int j = 0; j < qups.size(); j++){
+	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
+	     						match = true;
+	     				}
+	     				if(match == false){
 	     				if(gems.get(i).getBfs() == bfsid){
 	     					gems.remove(gems.get(i));
+	     				}
 	     				}
 	     			}
 	     		}
@@ -404,8 +412,17 @@ public class QuellenSteuer {
      				}
 	     			
 	     			for(int i = 0; i < qups.size(); i++){
-	     				if(qups.get(i).getID() == qupsid){
-	     					qups.remove(qups.get(i));
+	     				boolean match = false;
+	     				
+	     				for(int j = 0; j < gems.size(); j++){
+	     					if(gems.get(j).getBfs() == qups.get(i).getWohnort())
+	     						match = true;
+	     				}
+	     				
+	     				if(match == false){
+		     				if(qups.get(i).getID() == qupsid){
+		     					qups.remove(qups.get(i));
+		     				}
 	     				}
 	     			}
 	     		}
@@ -443,8 +460,15 @@ public class QuellenSteuer {
      				}
 	     			
 	     			for(int i = 0; i < ssls.size(); i++){
+	     				boolean match = false;
+	     				for(int j = 0; j < gems.size(); j++){
+	     					if(gems.get(j).getBfs() == ssls.get(i).getSitz())
+	     						match = true;
+	     				}
+	     				if(match == false){
 	     				if(ssls.get(i).getID() == sslid){
 	     					ssls.remove(ssls.get(i));
+	     				}
 	     				}
 	     			}
 	     		}
