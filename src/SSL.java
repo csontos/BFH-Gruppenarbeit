@@ -103,6 +103,10 @@ public class SSL implements Comparable{
 		return ID;
 	}
 
+	public int getSitz() {
+		return Sitz;
+	}
+
 	private static String format() {
 		      return "Erwartetes Format:\n"+ DISCRIMINATOR + ":" + " ID; Name; Sitz";
 		   }

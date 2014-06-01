@@ -307,7 +307,7 @@ public class QuellenSteuer {
       System.out.println("Anzahl der Zeilen: " + line_ct);
       System.out.println("Anzahl der Datensätze: " + imp_ct);
    }
-	
+	// Delete Funktion zum Löschen von bestimmten Elementen
 	private static void del(Scanner sc) {
 		  int line_ct = 0;
 	      int imp_ct = 0;
@@ -320,9 +320,8 @@ public class QuellenSteuer {
 	         
 	         if( line==null )
 	            break;
-	         /*
-	          * Leere Zeilen oder Kommentarzeilen ignorieren
-	          */
+	         
+	          //Leere Zeilen oder Kommentarzeilen ignorieren
 	         if (line.length() == 0 || line.charAt(0) == '#')
 	            continue;
 	         if( line.charAt(0)==EOF_CHAR )
@@ -331,7 +330,8 @@ public class QuellenSteuer {
 	         line_ct++;
 
 	        String[] discriminator = line.split(" ");
-
+	        
+	        //Abarbeitung der folgenden Abfrage, falls 'del GEM' eingegeben wird.
 	     	if (discriminator[0] == "GEM" || discriminator[0].equals(Gemeinde.DISCRIMINATOR)) {
 	     		
 	     		if(discriminator.length == 1){
@@ -348,7 +348,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     		
+	     		//Abarbeitung der folgenden Abfrage, falls 'del GEM bfs' eingegeben wird.
 	     		else if(discriminator[1].equals("bfs")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine BFS Nummer eingegeben. Bitte geben Sie einen Befehl im Format GEM bfs <BFS NR> ein");
@@ -370,15 +370,15 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	          
+	     	//Abarbeitung der folgenden Abfrage, falls 'del QUP' eingegeben wird.
 	     	} else if (discriminator[0] == "QUP" || discriminator[0].equals(QUP.DISCRIMINATOR)) {
 	     		
 	     		if(discriminator.length == 1){
 	     			for(int i = 0; i < qups.size(); i++){
 	     				boolean match = false;
 	     					
-	     				for(int j = 0; j < qups.size(); j++){
-	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
+	     				for(int j = 0; j < gems.size(); j++){
+	     					if(gems.get(j).getBfs() == qups.get(i).getWohnort())
 	     						match = true;
 	     				}
 	     					
@@ -387,7 +387,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     		
+	     		//Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird.
 	     		else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format QUP ID <ID> ein");
@@ -409,15 +409,15 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     		
+	     	//Abarbeitung der folgenden Abfrage, falls 'del SSL' eingegeben wird.	
 	      	} else if (discriminator[0] == "SSL" || discriminator[0].equals(SSL.DISCRIMINATOR)) {
 	     	
 	      		if(discriminator.length == 1){
 	     			for(int i = 0; i < ssls.size(); i++){
 	     				boolean match = false;
 	     					
-	     				for(int j = 0; j < qups.size(); j++){
-	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
+	     				for(int j = 0; j < gems.size(); j++){
+	     					if(gems.get(j).getBfs() == ssls.get(i).getSitz())
 	     						match = true;
 	     				}
 	     					
@@ -426,6 +426,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
+	      		//Abarbeitung der folgenden Abfrage, falls 'del SSL id' eingegeben wird.
 	      		else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format SSL ID <ID> ein");
@@ -447,21 +448,14 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	      		
+	      	//Abarbeitung der folgenden Abfrage, falls 'del ABR' eingegeben wird.
 	      	} else if (discriminator[0] == "ABR" || discriminator[0].equals(ABR.DISCRIMINATOR)) {
 	     	
 	      		if(discriminator.length == 1){
 	     			for(int i = 0; i < abrs.size(); i++){
-	     				boolean match = false;
-	     					
-	     				for(int j = 0; j < abrs.size(); j++){
-	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
-	     						match = true;
-	     				}
-	     					
-	     				if(match == false){
+	     	
 	     					abrs.remove(i);
-	     				}
+	     				
 	     			}
 	     		} else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
