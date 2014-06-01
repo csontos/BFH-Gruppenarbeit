@@ -532,6 +532,7 @@ public class QuellenSteuer {
 	            break;
 
 	        String[] discriminator = line.split(" ");
+	        int year = 0;
 	        
 	        //Qups und Abrs nach ID sortieren, so dass der Vergleich schneller gemacht werden kann
 	        //!!! prüfen ob das am Schluss wirklich gebraucht wird -> währe für performance Steigerung
@@ -547,7 +548,6 @@ public class QuellenSteuer {
 
 	     		double SummeBruttolohn = 0.0;
 	     		double QuellensteuerBund = 0.0;
-	     		int year = 0;
 	     		
 	     		//Falls ein Jahr angegeben wurde wird dieses in die Year Variabel gespeichert. Ansonsten behält die Variabel den Wert 0
 	     		if(discriminator.length == 2){
@@ -573,7 +573,41 @@ public class QuellenSteuer {
 	     		
 	     		System.out.println("Quellensteuer Bund: " + QuellensteuerBund);
 	     		
-	     	} else {
+	     	} else if(discriminator[0].equals("KANT")){
+	     		
+	     		double SummeBruttolohnQUP = 0.0;
+	     		double SummeBruttolohnSSL = 0.0;
+	     		double SummeBruttolohnABR = 0.0;
+	     		double QuellensteuerBundSSL = 0.0;
+	     		String KantID = discriminator[1];
+	     		
+	     		if((discriminator.length > 3)||(discriminator.length < 2)){
+	     			System.out.println("falsche Anzahl von Argumenten für BUND angegeben");
+	     			waitforInput(new String[0]);
+	     		}
+	     		
+	     		//Prüfen ob ein Jahr migegeben wurde und dieses speichern
+	     		if(discriminator.length == 3){
+	     			try{
+	     				year = Integer.parseInt(discriminator[2]);
+	     			} catch(RuntimeException re){
+	     				System.out.println("Kein gültiges Jahresformat angegeben");
+	     				waitforInput(new String[0]);
+	     			}
+	     		}
+     			
+	     		//Hier bin ich stehen geblieben...
+	     		for(int i = 0; i < qups.size(); i++){
+	     			for(int j = 0; j < gems.size(); j++){
+	     				if((qups.get(i).getWohnort() == gems.get(j).getBfs())&&(gems.get(j).getKanton().equals(KantID))){
+	     					System.out.println(KantID + "gefunden");
+	     					
+	     				}
+	     			}
+	     		}
+	     		
+	     		
+	      	}else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
 	   }

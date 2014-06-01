@@ -31,6 +31,10 @@ public class Gemeinde implements Comparable {
 	   return bfs;
    }
    
+   public String getKanton(){
+	   return this.kanton.toString();
+   }
+   
    public static Gemeinde getGemeinde( List<String> values ) {
       if( values.size() != 3 ) {
          throw new RuntimeException("Falsche Anzahl von Werten: " + values.size() + "\n" + format());
