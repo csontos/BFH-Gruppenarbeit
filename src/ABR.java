@@ -115,6 +115,9 @@ public class ABR implements Comparable{
 		   /*  Anzeige aller Abrechnungen. Sortierung nach steuerlich relevantem Sitz
 		    * 
 		    */
+		   
+		   //double tmp = QUP;
+		   
 //		   int cmp = this.Firmenname.compareTo(that.Firmenname);
 //		   if (cmp != 0)
 //			   return cmp;

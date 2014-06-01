@@ -7,13 +7,11 @@ Beschreibung:  Das ist ein Test
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class QuellenSteuer {
 
