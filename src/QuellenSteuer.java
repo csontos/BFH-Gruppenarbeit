@@ -307,8 +307,6 @@ public class QuellenSteuer {
    }
 	// Delete Funktion zum Löschen von bestimmten Elementen
 	private static void del(Scanner sc) {
-		  int line_ct = 0;
-	      int imp_ct = 0;
 	      
 	      String line = "";
 	      
@@ -324,8 +322,6 @@ public class QuellenSteuer {
 	            continue;
 	         if( line.charAt(0)==EOF_CHAR )
 	            break;
-	         
-	         line_ct++;
 
 	        String[] discriminator = line.split(" ");
 	        
@@ -370,9 +366,9 @@ public class QuellenSteuer {
 	     						match = true;
 	     				}
 	     				if(match == false){
-	     				if(gems.get(i).getBfs() == bfsid){
-	     					gems.remove(gems.get(i));
-	     				}
+	     					if(gems.get(i).getBfs() == bfsid){
+	     						gems.remove(gems.get(i));
+	     					}
 	     				}
 	     			}
 	     		}
@@ -503,8 +499,6 @@ public class QuellenSteuer {
 	      	}	else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
-	     	System.out.println("Anzahl der Zeilen: " + line_ct);
-	     	System.out.println("Anzahl der Datensätze: " + imp_ct);
 	   }
 		
 		//ToDo: Prüfung für alle Argumente

@@ -43,8 +43,15 @@ public class ABR implements Comparable{
 		return Jahr;
 	}
 
+	public QUP getQup(){
+		return Qup; 
+	}
 	
-	   public static ABR getABR( List<String> values ) {
+	public SSL getSsl() {
+		return Ssl;
+	}
+	
+	public static ABR getABR( List<String> values ) {
 		   	int NewID = 0;
 		   	int tmpq = 0;
 		   	int tmps = 0;
@@ -111,33 +118,24 @@ public class ABR implements Comparable{
 	   }
 
 	   public int compareTo( Object o ) {
-		   //ABR that = (ABR)o;
-		   QUP that = (QUP)o;
+		   ABR that = (ABR)o;
+		   //QUP that = (QUP)o;
 		   /*  Anzeige aller Abrechnungen. Sortierung nach steuerlich relevantem Sitz
 		    * vergleich wohnsaessig
 		    * 
 		    */
-//		   boolean tmp = Qup.isAnsaessig();
-//		   if (tmp = true) {
-//			   int cmp = this.Qup.getWohnort()  - that.QUP.getWohnort();
-//		   }
+		   int cmp;
 		   
-//		   else {
-//			   int cmp = this.Ssl.getSitz() - other.Ssl.
-//		   }
+		   boolean tmp = Qup.isAnsaessig();
+		   if (tmp == true) {
+			   cmp = this.Qup.getWohnort()  - that.getQup().getWohnort();
+		   }
+		   else {
+			   cmp = this.Ssl.getSitz() - that.getSsl().getSitz();
+		   }
 		   
+		   return cmp;
 		   
-		   //double tmp = QUP;
-		   
-//		   int cmp = this.Firmenname.compareTo(that.Firmenname);
-//		   if (cmp != 0)
-//			   return cmp;
-//		   
-//		   cmp = this.Sitz - that.Sitz;
-//		   if (cmp != 0)
-//			   return cmp;
-		   
-		   return 0;
 	   }
 	   
 	   private static String format() {
