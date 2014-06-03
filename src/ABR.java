@@ -128,18 +128,20 @@ public class ABR implements Comparable{
 		   
 		   boolean tmp = Qup.isAnsaessig();
 		   // debug
-		   //System.out.println("ist Ansaessig: " + tmp);
+		   System.out.println("ist Ansaessig: " + tmp);
 		   
 		   if (tmp == true) {
 			   cmp = this.Qup.getWohnort()  - that.getQup().getWohnort();
 			   // debug
-			   //System.out.println("Ist Ansaessig: this.qup.getWohnort \"" + this.Qup.getWohnort() + "\" that.getQup.getWohnort \"" + that.getQup().getWohnort() + "\"");
+			   System.out.println("Ist Ansaessig: this.qup.getWohnort() \"" + this.Qup.getWohnort() + "\" - that.getQup.getWohnort \"" + that.getQup().getWohnort() + "\"");
 		   }
 		   else {
 			   cmp = this.Ssl.getSitz() - that.getSsl().getSitz();
+			   // debug
+			   System.out.println("Ist nicht Ansaessig: this.Ssl.getSitz() \"" + this.Ssl.getSitz() + "\" - that.getSsl().getSitz() \"" + that.getSsl().getSitz() + "\""); 
 		   }
 		   
-		   return cmp;
+		   return -cmp;
 		   
 	   }
 	   
