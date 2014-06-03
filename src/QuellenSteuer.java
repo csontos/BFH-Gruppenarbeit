@@ -589,6 +589,8 @@ public class QuellenSteuer {
 	     			}
 	     		}
      			
+	     		//todo: Kinder und Ansaessig ergänzen
+	     		
 	     		//Durch alle Abrechnungen iterieren
 	     		for(ABR a : abrs){
 	     			for(Gemeinde g: gems){
@@ -618,8 +620,6 @@ public class QuellenSteuer {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
 	   }
-		
-		//ToDo: Prüfung für alle Argumente
 		
 	}
 
