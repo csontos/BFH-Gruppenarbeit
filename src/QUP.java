@@ -14,15 +14,24 @@ public class QUP implements Comparable {
 	private boolean Ansaessig;
 	private int Wohnort;
 	private int Kinder;
+	private boolean hasWohnsitz;
 	
 	final static Comparator QUP_K = new QUPkComp();
 	final static Comparator QUP_id = new QUPidComp();
 
-	public QUP(int ID, String name, String vorname, int wohnort) {
+	public QUP(int ID, String name, String vorname, int wohnort, boolean ansaessig, int kinder) {
 		this.ID = ID;
 		this.Name = name;
 		this.Vorname = vorname;
 		this.Wohnort = wohnort;
+		this.Ansaessig = ansaessig;
+		this.Kinder = kinder;
+		
+		if(this.ID == 0){
+			hasWohnsitz = false;
+		}else{
+			hasWohnsitz = true;
+		}
 	}
 	
 	public int getID() {
@@ -48,14 +57,20 @@ public class QUP implements Comparable {
 	public String getName() {
 		return Name;
 	}
+	
+	public boolean getHasWohnsitz() {
+		return hasWohnsitz;
+	}
 
 	public static QUP getQUP(List<String> values) {
 		int NewID;
 		String name;
 		String vorname;
 		int wohnort;
+		boolean ansaesig;
+		int kinder;
 		
-		if (values.size() == 3) {
+		if (values.size() == 5) {
 			if(QuellenSteuer.getQups().size() == 0) {
 				NewID = 1;
 			} else {
@@ -66,17 +81,21 @@ public class QUP implements Comparable {
 			name = values.get(0);
 			vorname = values.get(1);
 			wohnort = Integer.parseInt(values.get(2));
-		} else if (values.size() == 4) {
+			ansaesig = Boolean.parseBoolean(values.get(3));
+			kinder = Integer.parseInt(values.get(4));
+		} else if (values.size() == 6) {
 			NewID = Integer.parseInt(values.get(0));
 			name = values.get(1);
 			vorname = values.get(2);
 			wohnort = Integer.parseInt(values.get(3));
+			ansaesig = Boolean.parseBoolean(values.get(4));
+			kinder = Integer.parseInt(values.get(5));
 		} else {
 			throw new RuntimeException("Falsche Anzahl von Werten: "
 					+ values.size() + "\n" + format());
 		}
 		try {
-			return new QUP(NewID, name, vorname, wohnort);
+			return new QUP(NewID, name, vorname, wohnort, ansaesig, kinder);
 		} catch (RuntimeException r) {
 			throw new RuntimeException("Error: " + r.getMessage() + "\n"
 					+ format());

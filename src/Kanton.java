@@ -19,6 +19,9 @@ public enum Kanton {
    public String toString() {
       return longNames[this.ordinal()];
    }
+   public String getID(){
+	   return this.name();
+   }
    public double steuerSatz() {
       return kantSteuer[ this.ordinal() ];
    }

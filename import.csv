@@ -17,12 +17,21 @@ GEM: 861; BE; Belp
 GEM: 1084; LU; Eich
 GEM: 230; ZH; Winterthur
 GEM: 158; ZH; Stäfa
-QUP: Badertscher; Lucas; 939
+<<<<<<< HEAD
+QUP: Badertscher; Lucas; 939; true; 0
+QUP: Deck; Klaus; 261; flase; 2
+QUP: Csontos; Robin; 351; true; 0
+QUP: Fischer; Fabian; 361; true; 0
+QUP: Wuest; Juerg; 351; true; 0
+QUP: Fust; Robert; 4260; true; 3
+=======
+QUP: Badertscher; Lucas; 0
 QUP: Deck; Klaus; 261
 QUP: Csontos; Robin; 351
 QUP: Fischer; Fabian; 361
 QUP: Wuest; Juerg; 351
 QUP: Fust; Robert; 4260
+>>>>>>> 1f01c23eaccc50253fcdfc980c708770e6f0d7ca
 SSL: Fritschi AG; 158
 SSL: Novo BC; 351
 SSL: ABB; 261
