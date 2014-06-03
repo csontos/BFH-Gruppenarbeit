@@ -22,7 +22,6 @@ public class SSL implements Comparable{
 		Sitz = sitz;
 	}
 
-
 	public static SSL getSSL( List<String> values ) {  
 		int NewID = 0;
 		String Name;

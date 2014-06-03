@@ -111,10 +111,21 @@ public class ABR implements Comparable{
 	   }
 
 	   public int compareTo( Object o ) {
-		   ABR that = (ABR)o;
+		   //ABR that = (ABR)o;
+		   QUP that = (QUP)o;
 		   /*  Anzeige aller Abrechnungen. Sortierung nach steuerlich relevantem Sitz
+		    * vergleich wohnsaessig
 		    * 
 		    */
+//		   boolean tmp = Qup.isAnsaessig();
+//		   if (tmp = true) {
+//			   int cmp = this.Qup.getWohnort()  - that.QUP.getWohnort();
+//		   }
+		   
+//		   else {
+//			   int cmp = this.Ssl.getSitz() - other.Ssl.
+//		   }
+		   
 		   
 		   //double tmp = QUP;
 		   
