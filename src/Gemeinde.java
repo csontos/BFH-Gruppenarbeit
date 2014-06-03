@@ -35,6 +35,10 @@ public class Gemeinde implements Comparable {
 	   return this.kanton.toString();
    }
    
+   public String getKantonId(){
+	   return this.kanton.getID();
+   }
+   
    public static Gemeinde getGemeinde( List<String> values ) {
       if( values.size() != 3 ) {
          throw new RuntimeException("Falsche Anzahl von Werten: " + values.size() + "\n" + format());
@@ -58,7 +62,7 @@ public class Gemeinde implements Comparable {
 	   return 0.0;
    }
    public double steuerKanton() {
-    return this.kanton.steuerSatz();
+    return this.kanton.steuerSatz() / 100;
    }
    public double steuerBund() {
       return 0.0;
