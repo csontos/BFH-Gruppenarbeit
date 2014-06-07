@@ -1,11 +1,14 @@
+/* Names: Lucas Badertscher, Jürg Wüst, Fabian Fischer, Robin Csontos / class 2o
+ * Program: Quellensteuer
+ * Version: 1.0
+ * Class: QUP.java
+ * Description: Klasse für die Quellensteuerpflichtigen
+ */
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Comparator;
-/*
- Klasse: QUP
- Beschreibung: Das ist die Klasse für den Quellensteuerpflichten (QUP)
 
- */
 public class QUP implements Comparable {
 	public final static String DISCRIMINATOR = "QUP";
 	private int ID;

@@ -1,8 +1,9 @@
-/*
-Klasse:
-Beschreibung: 
-
-*/
+/* Names: Lucas Badertscher, Jürg Wüst, Fabian Fischer, Robin Csontos / class 2o
+ * Program: Quellensteuer
+ * Version: 1.0
+ * Class: Kanton.java
+ * Description: Klasse für die Kantone
+ */
 
 
 

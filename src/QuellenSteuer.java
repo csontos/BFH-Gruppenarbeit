@@ -1,7 +1,8 @@
-/*
-Klasse: QuellenSteuer
-Beschreibung:  Das ist ein Test
-
+/* Names: Lucas Badertscher, Jürg Wüst, Fabian Fischer, Robin Csontos / class 2o
+ * Program: Quellensteuer
+ * Version: 1.0
+ * Class: QuellenSteuer.java
+ * Description: Funktionalität gemäss help()
  */
 
 import java.io.File;
@@ -15,9 +16,10 @@ import java.util.Scanner;
 
 public class QuellenSteuer {
 
-	private final static char EOF_CHAR = '-'; // signalisiert Ende der Eingabe
+	/*signalisiert Ende der Eingabe*/
+	private final static char EOF_CHAR = '-'; 
 
-	// Daten werden in List verwaltet
+	/* Daten werden in Listen verwaltet */
 	private static List<Gemeinde> gems = new LinkedList<Gemeinde>();
 	private static List<SSL> ssls = new LinkedList<SSL>();
 	private static List<QUP> qups = new LinkedList<QUP>();
@@ -35,44 +37,41 @@ public class QuellenSteuer {
 		return abrs;
 	}
 	
+	/* Methode: main()
+	 * Aufruf der Methode waitforinput() */
 	public static void main(String[] args) {
-		/* eigene Methode "waitforInput" erstellen mit Code oder While Schleife
-		*   Hier wird geprüft, ob bereits Argumente mitgegeben werden, falls nicht via Scanner einlesen. Sollange nicht exit oder sonst irgendwas gewählt wird,
-		*   soll die Eingabe von Argumenten wiederholt werden.
-		*/
-		
 		waitforInput(args);
-	
 	}
 
+	/* Methode: waitforinput()
+	 * Die Methode prüft, ob bereits Argumente mitgegeben werden. 
+	 * Solange nicht 'exit' eingegeben wird, soll die Eingabe von Argumenten wiederholt werden. */
 	public static void waitforInput(String[] args) {	
 		
-		/*
-		 * Falls beim Aufruf keine Argumente mitgegeben werden, können diese auf der Komandozeile eingegeben werden
-		 */
+		/* Ohne Argumente wird help aufgerufen */
 		if( args.length==0 ) {
 			help();
 			Scanner input = new Scanner(System.in);
 			System.out.print("Bitte Auswahl angeben: "); 
 			String s = input.nextLine();
 			
-			//Bei der Eingabe "exit" schliesst sich das Programm
+			/* Bei der Eingabe von "exit" schliesst sich das Programm */
 			if(s.equals("exit")){
 				System.out.println("Das Programm wurde beendet");
 				System.exit(-1);
 			}
 			
-			/*
-			 * Der eigegenene String wird nach dem Leerzeichen getrennt und die einzelnen Elemente als die Argumente des Programms definiert
-			 */
+			/* Der eingegebene String wird nach dem Leerzeichen getrennt und die einzelnen Elemente als die Argumente des Programms definiert */
 			args = s.split(" ");   
 	    }
 
+		/* Überprüfung des erstes Arguments. 
+		 * Mögliche Werte: imp, exp, show, del, stat */
 		String cmd = args[0];
 
 		if (cmd.equals("imp")) {
 			Scanner sc = null;
-			if (args.length > 1) { // Einlesen von Datei
+			if (args.length > 1) { /* Einlesen von Datei */
 				File f = null;
 				try {
 					f = new File(args[1].trim());
@@ -82,13 +81,14 @@ public class QuellenSteuer {
 							+ " kann nicht gefunden werden.");
 					waitforInput(new String[0]);
 				}
-			} else { // Einlesen von stdin
+			} else { /* Einlesen von stdin */
 				sc = new Scanner(System.in);
 			}
-
+			
+			/* Aufruf der Funktion imp() */
 			imp(sc);
 
-//			if (sc != null)
+//			 NICHT MEHR NOTWENDIG??? if (sc != null)
 //				sc.close();
 			
 		} else if (cmd.equals("exp")) {
@@ -105,7 +105,7 @@ public class QuellenSteuer {
 			if (args.length > 2) {
 				File f = null;
 				try {
-					f = new File(args[2].trim());
+					f = new File(args[2].trim()); /* Export in Datei */
 					out = new PrintStream(f);
 					export(discriminator, out);
 					out.close();
@@ -115,6 +115,7 @@ public class QuellenSteuer {
 					waitforInput(new String[0]);
 				}
 			} else {
+				/* Aufruf der Funktion export() */
 				export(discriminator, System.out);
 			}
 			
@@ -126,7 +127,8 @@ public class QuellenSteuer {
 				System.out.println("Falsche Anzahl von Argumenten für show.");
 				waitforInput(new String[0]);
 			}
-
+			
+			/* Aufruf der Funktion show() */
 			show(sc);
 
 		} else if (cmd.equals("del")) {
@@ -140,7 +142,7 @@ public class QuellenSteuer {
 				waitforInput(new String[0]);
 			}
 			
-			//Del Funktion aufrufen
+			/* Aufruf der Funktion del() */
 			del(sc);
 			
 		} else if (cmd.equals("stat")) {
@@ -154,7 +156,7 @@ public class QuellenSteuer {
 				waitforInput(new String[0]);
 			}
 			
-			//Del Funktion aufrufen
+			/* Aufruf der Funktion stat() */
 			stat(sc);
 			
 			
@@ -166,31 +168,38 @@ public class QuellenSteuer {
 			
 	}
 	
+	/* Methode: export()
+	 * Diese Methode überprüft den übergebenen Discriminator mit allen möglichen Optionen und exportiert die Daten an die angegebene Stelle. 
+	 * Beim Discriminator 'ALL' wird jede If-Schlaufe einzeln abgearbeitet. */
 	private static void export(String discriminator, PrintStream out) {
 		out.println("# exporting '" + discriminator + "' at "
 				+ new java.util.Date());
-
-		if (discriminator == "ALL"
+		
+		if (discriminator.equals("ALL")
 				|| discriminator.equals(Gemeinde.DISCRIMINATOR)) {
 			for (Gemeinde g : gems)
 				out.println(Gemeinde.DISCRIMINATOR + ": " + g);
 		}
-		 if( discriminator== "ALL" || discriminator.equals(SSL.DISCRIMINATOR)) {
+		 if( discriminator.equals("ALL") || discriminator.equals(SSL.DISCRIMINATOR)) {
 		 for( SSL s : ssls )
 			 out.println( SSL.DISCRIMINATOR + ": " + s );
 		 }
-		 if( discriminator== "ALL" || discriminator.equals(QUP.DISCRIMINATOR)) {
+		 if( discriminator.equals("ALL") || discriminator.equals(QUP.DISCRIMINATOR)) {
 		 for( QUP q : qups )
 			 out.println( QUP.DISCRIMINATOR + ": " + q );
 		 }
-		 if( discriminator== "ALL" || discriminator.equals(ABR.DISCRIMINATOR)) {
+		 if( discriminator.equals("ALL") || discriminator.equals(ABR.DISCRIMINATOR)) {
 		 for( ABR a : abrs )
 			 out.println( ABR.DISCRIMINATOR + ": " + a );
 		 }
 	}
-
+	
+	/* Methode: imp()
+	 * Diese Methode importiert Daten anhand des angegebenen Discriminators.  */
 	private static void imp( Scanner sc ) {
-      int line_ct = 0;
+      
+		/* Counter für Datensätze und Zeilen */
+	  int line_ct = 0;
       int imp_ct = 0;
       
       String line = "";
@@ -201,20 +210,15 @@ public class QuellenSteuer {
          
          if( line==null )
             break;
-         if (line.length() == 0 || line.charAt(0) == '#') // Leere Zeilen oder Kommentarzeilen ignorieren
+         if (line.length() == 0 || line.charAt(0) == '#') /* Leere Zeilen oder Kommentarzeilen ignorieren */
             continue;
-         if( line.charAt(0)==EOF_CHAR )
+         if( line.charAt(0)==EOF_CHAR ) /* Bei Eingabe des Bindestrichs wird die Funktion verlassen */
             break;
          
          line_ct++;
          
-         // Format:
-         // GEM: 2732; AG; Uezwil;
-         // SSL:
-         // QUP:
-         // ABR:
-
-         String discriminator; // suche ":" in "GEM: 2732; AG; Uezwil"
+         /* suche ":". z.B. "GEM: 2732; AG; Uezwil" */
+         String discriminator; 
          int colonPosition;
          if ((colonPosition = line.indexOf(":")) < 0) {
             System.out.println(
@@ -224,21 +228,20 @@ public class QuellenSteuer {
          discriminator = line.substring(0, colonPosition).trim();
          line = line.substring(colonPosition + 1).trim();
 
-         /*
-          * alle Tokens einlesen, Trenner ist ";"
-          */
+         /* Alle Tokens einlesen, Trenner ist ";" */
          List<String> tokens = new LinkedList<String>();
          while (true) {
             int delimPos = line.indexOf(";");
             if (delimPos < 0) {
                tokens.add(line.trim());
-               break; // kein ";" mehr
+               break; /* kein ";" mehr */
             } else {
                tokens.add(line.substring(0, delimPos).trim());
                line = line.substring(delimPos + 1);
             }
          }
 
+         /* Import von Gemeinden */
          if (discriminator.equals("GEM")) {
             try {
                Gemeinde g = Gemeinde.getGemeinde(tokens);
@@ -253,6 +256,7 @@ public class QuellenSteuer {
                System.out.println("Error: " + re.getMessage());
             }
          }
+         /* Import von Schuldnern steuerbarer Leistungen (SSL) */
           else if ( discriminator.equals("SSL")) {
         	  try {
         		  SSL s = SSL.getSSL(tokens);
@@ -267,6 +271,7 @@ public class QuellenSteuer {
                   System.out.println("Error: " + re.getMessage());
               }
           }
+         /* Import von Quellensteuerpflichtigen */
           else if ( discriminator.equals("QUP")) {
          	  try {
         		  QUP q = QUP.getQUP(tokens);
@@ -281,7 +286,8 @@ public class QuellenSteuer {
                   System.out.println("Error: " + re.getMessage());
               }
           }
-
+         
+         /* Import von Quellensteuerabrechnungen */
           else if ( discriminator.equals("ABR")) {
          	  try {
         		  ABR a = ABR.getABR(tokens);
@@ -305,7 +311,9 @@ public class QuellenSteuer {
       System.out.println("Anzahl der Zeilen: " + line_ct);
       System.out.println("Anzahl der Datensätze: " + imp_ct);
    }
-	// Delete Funktion zum Löschen von bestimmten Elementen
+	
+	/* Methode: del()
+	 * Diese Methode  löscht bestimmte Einträge in der Liste. Die genaue Syntax zur Löschung ist im Code genauer beschrieben  */
 	private static void del(Scanner sc) {
 	      
 	      String line = "";
@@ -317,7 +325,7 @@ public class QuellenSteuer {
 	         if( line==null )
 	            break;
 	         
-	          //Leere Zeilen oder Kommentarzeilen ignorieren
+	          /* Leere Zeilen oder Kommentarzeilen ignorieren */
 	         if (line.length() == 0 || line.charAt(0) == '#')
 	            continue;
 	         if( line.charAt(0)==EOF_CHAR )
@@ -325,7 +333,7 @@ public class QuellenSteuer {
 
 	        String[] discriminator = line.split(" ");
 	        
-	        //Abarbeitung der folgenden Abfrage, falls 'del GEM' eingegeben wird.
+	        /* Abarbeitung der folgenden Abfrage, falls 'del GEM' eingegeben wird. */
 	     	if (discriminator[0] == "GEM" || discriminator[0].equals(Gemeinde.DISCRIMINATOR)) {
 	     		
 	     		if(discriminator.length == 1){
@@ -342,7 +350,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     		//Abarbeitung der folgenden Abfrage, falls 'del GEM bfs' eingegeben wird.
+	     		/* Abarbeitung der folgenden Abfrage, falls 'del GEM bfs' eingegeben wird. */
 	     		else if(discriminator[1].equals("bfs")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine BFS Nummer eingegeben. Bitte geben Sie einen Befehl im Format GEM bfs <BFS NR> ein");
@@ -372,7 +380,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     	//Abarbeitung der folgenden Abfrage, falls 'del QUP' eingegeben wird.
+	     	/* Abarbeitung der folgenden Abfrage, falls 'del QUP' eingegeben wird. */
 	     	} else if (discriminator[0] == "QUP" || discriminator[0].equals(QUP.DISCRIMINATOR)) {
 	     		
 	     		if(discriminator.length == 1){
@@ -389,7 +397,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     		//Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird.
+	     		/* Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird. */
 	     		else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format QUP ID <ID> ein");
@@ -420,7 +428,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	     	//Abarbeitung der folgenden Abfrage, falls 'del SSL' eingegeben wird.	
+	     	/* Abarbeitung der folgenden Abfrage, falls 'del SSL' eingegeben wird.	*/
 	      	} else if (discriminator[0] == "SSL" || discriminator[0].equals(SSL.DISCRIMINATOR)) {
 	     	
 	      		if(discriminator.length == 1){
@@ -437,7 +445,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	      		//Abarbeitung der folgenden Abfrage, falls 'del SSL id' eingegeben wird.
+	      		/* Abarbeitung der folgenden Abfrage, falls 'del SSL id' eingegeben wird. */
 	      		else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format SSL ID <ID> ein");
@@ -466,7 +474,7 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	      	//Abarbeitung der folgenden Abfrage, falls 'del ABR' eingegeben wird.
+	      	/* Abarbeitung der folgenden Abfrage, falls 'del ABR' eingegeben wird. */
 	      	} else if (discriminator[0] == "ABR" || discriminator[0].equals(ABR.DISCRIMINATOR)) {
 	     	
 	      		if(discriminator.length == 1){
@@ -475,6 +483,7 @@ public class QuellenSteuer {
 	     					abrs.remove(i);
 	     				
 	     			}
+	     			/* Abarbeitung der folgenden Abfrage, falls 'del ABR id' eingegeben wird. */	
 	     		} else if(discriminator[1].equals("id")){
 	     			if(discriminator.length != 3){
 	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format ABR ID <ID> ein");
@@ -501,11 +510,12 @@ public class QuellenSteuer {
 	     	}
 	   }
 		
-		//ToDo: Prüfung für alle Argumente
+		//ToDo: Prüfung für alle Argumente WAS IST DAMIT GEMEINT??
 		
 	}
 	
-	
+	/* Methode: stat()
+	 * description */
 	private static void stat(Scanner sc) {
 		 String line = "";
 	      
@@ -515,9 +525,7 @@ public class QuellenSteuer {
 	         
 	         if( line==null )
 	            break;
-	         /*
-	          * Leere Zeilen oder Kommentarzeilen ignorieren
-	          */
+	         /* Leere Zeilen oder Kommentarzeilen ignorieren */
 	         if (line.length() == 0 || line.charAt(0) == '#')
 	            continue;
 	         if( line.charAt(0)==EOF_CHAR )
@@ -623,7 +631,8 @@ public class QuellenSteuer {
 		
 	}
 
-	
+	/* Methode: stat()
+	 * Anhand des Discriminators werden die jeweiligen Datensätze angezeigt. */
 	private static void show(Scanner sc) {
 
 		String line = "";
@@ -633,27 +642,18 @@ public class QuellenSteuer {
 
 			if (line == null)
 				break;
-			/*
-			 * Leere Zeilen oder Kommentarzeilen ignorieren
-			 */
+			/* Leere Zeilen oder Kommentarzeilen ignorieren */
 			if (line.length() == 0 || line.charAt(0) == '#')
 				continue;
 			if (line.charAt(0) == EOF_CHAR)
 				break;
-
-			/*
-			 * Format für die Anzeige mit "show" // GEM // GEM k // GEM b // QUP
-			 * // QUP k // SSL // SSL k // ABR // ABR kanton_kuerzel
-			 */
 
 			String[] discriminator = line.split(" ");
 			// String discriminator; // suche ":" in "GEM: 2732; AG; Uezwil"
 			// discriminator = line.substring(0).trim();
 			// System.out.println(discriminator);
 
-			/*
-			 * alle Tokens einlesen, Trenner ist ";"
-			 */
+			/* alle Tokens einlesen, Trenner ist ";" */
 			List<String> tokens = new LinkedList<String>();
 
 			if (discriminator[0] == "GEM"
@@ -740,7 +740,8 @@ public class QuellenSteuer {
 	}
 
 	
-	
+	/* Methode: help()
+	 * Zeigt die Hilfe zum Programm an. */
 	private static void help() {
 		/* 'QUP: qup_id; name; vorname; wohnort(bfs_nr); ...' (bei nicht vorhandener qup_id wird diese automatisch vergeben)\n"
 				+ "        'SSL: ssl_id; name; sitz(bfs_nr); ...(bei nicht vorhandener ssl_id wird diese automatisch vergeben)\n"

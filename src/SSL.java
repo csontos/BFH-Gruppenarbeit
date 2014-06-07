@@ -1,12 +1,15 @@
+/* Names: Lucas Badertscher, Jürg Wüst, Fabian Fischer, Robin Csontos / class 2o
+ * Program: Quellensteuer
+ * Version: 1.0
+ * Class: SSL.java
+ * Description: Klasse für Schuldner steuerbarer Leistungen (SSL)
+ */
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Collections;
 
-/*
-Klasse:
-Beschreibung: Das ist die Klasse für Arbeitgeber SSL= Schuldner steruerbarer Leistung
 
-*/
 public class SSL implements Comparable{
 	public final static String DISCRIMINATOR = "SSL";
 	private int ID; //wenn es diese nicht gibt, setzen

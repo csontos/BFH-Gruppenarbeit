@@ -1,13 +1,13 @@
+/* Names: Lucas Badertscher, Jürg Wüst, Fabian Fischer, Robin Csontos / class 2o
+ * Program: Quellensteuer
+ * Version: 1.0
+ * Class: ABR.java
+ * Description: Klasse für die Quellensteuerabrechnungen
+ */
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-/*
-Klasse: ABR
-Beschreibung: 
-
-*/
-
 
 public class ABR implements Comparable{
 

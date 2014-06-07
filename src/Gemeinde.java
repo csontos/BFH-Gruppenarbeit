@@ -1,8 +1,9 @@
-/*
-Klasse: Gemeinde
-Beschreibung: 
-
-*/
+/* Names: Lucas Badertscher, Jürg Wüst, Fabian Fischer, Robin Csontos / class 2o
+ * Program: Quellensteuer
+ * Version: 1.0
+ * Class: Gemeinde.java
+ * Description: Klasse für die Gemeinden
+ */
 
 
 import java.util.Comparator;
