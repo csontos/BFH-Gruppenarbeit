@@ -661,6 +661,73 @@ public class QuellenSteuer {
 	     		System.out.print("Summe aller Bruttolöhne in Gemeinde " + bfs );
 	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
 	     		System.out.println(": " + SummeBruttolohnQUP);
+	     	
+	     	} else if(discriminator[0].equals("QUP")){
+	     		
+	     		double SummeBruttolohnQUP = 0.0;
+	     		double QuellensteuerGesamt = 0.0;
+	     		double QuellensteuerBund = 0.0;
+	     		double QuellensteuerKant = 0.0;
+	     		double QuellensteuerGem = 0.0;
+
+	     		double vermSteuersatzBund = 0.0;
+	     		double vermSteuersatzKant = 0.0;
+	     		double vermSteuersatzGem = 0.0;
+	     		
+	     		String NameQup = "";
+	     		
+	     		if((discriminator.length > 3)||(discriminator.length < 2)){
+	     			System.out.println("falsche Anzahl von Argumenten für QUP angegeben");
+	     			waitforInput(new String[0]);
+	     		}
+	     		
+	     		int QUPID = Integer.parseInt( discriminator[1] );
+	     		
+	     		//Prüfen ob ein Jahr migegeben wurde und dieses speichern
+	     		if(discriminator.length == 3){
+	     			try{
+	     				year = Integer.parseInt(discriminator[2]);
+	     			} catch(RuntimeException re){
+	     				System.out.println("Kein gültiges Jahresformat angegeben");
+	     				waitforInput(new String[0]);
+	     			}
+	     		}
+	     		
+	     		//Durch alle Abrechnungen iterieren
+	     		for(ABR a : abrs){
+	     			//Prüfen ob im gewählten Jahr oder ob kein Jahr gewählt
+	     			if((a.getJahr() == year)||(year == 0)){
+		     			if(a.getQup().getID() == QUPID){
+		     				for(Gemeinde g : gems){
+		     					//Prüfen ob ABR zur Wohngemeinde des QUP gehört.
+		     					//Ist die QUP nicht Ansässig wird die gemeinde des SSL verwendet
+		     					if((g.getBfs() == a.getQup().getWohnort()) || ((!a.getQup().isAnsaessig())) && (a.getSsl().getSitz() == g.getBfs())){
+		     						vermSteuersatzBund = vermSatz(g.steuerBund(), a.getQup().getKinder());
+		     						vermSteuersatzKant = vermSatz(g.steuerKanton(), a.getQup().getKinder());
+		     						vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
+		     					}
+		     					//Summe Bruttolohn zusammenzählen
+	     						SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
+	     						//Steuerstätze berechnen
+	     						QuellensteuerBund = QuellensteuerBund + a.getBruttolohn() * vermSteuersatzBund;
+	     						QuellensteuerKant = QuellensteuerKant + a.getBruttolohn() * vermSteuersatzKant;
+	     						QuellensteuerGem = QuellensteuerGem + a.getBruttolohn() * vermSteuersatzGem;
+		     					
+		     				}
+		     				//Name des QUP auslesen
+		     				if(NameQup.equals(""))
+		     					NameQup = a.getQup().getVorname() + " " + a.getQup().getName();
+		     			}
+	     			}
+	     			
+	     		}
+	     		
+	     		QuellensteuerGesamt = QuellensteuerBund + QuellensteuerKant + QuellensteuerGem;
+	     		
+	     		System.out.println("Summe Bruttolohn für " + NameQup + ": " + SummeBruttolohnQUP);
+	     		System.out.println("Quellensteuer Bund für " + NameQup + ": " + QuellensteuerBund);
+	     		System.out.println("Quellensteuer Kanton für " + NameQup + ": " + QuellensteuerKant);
+	     		System.out.println("Quellensteuer Gemeinde für " + NameQup + ": " + QuellensteuerGem);
 	     		
 	      	}else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);

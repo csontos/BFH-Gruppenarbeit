@@ -60,13 +60,13 @@ public class Gemeinde implements Comparable {
    }
    
    public double steuerGemeinde() {
-	   return 0.0;
+	   return (this.kanton.steuerSatz() / 100)/2;
    }
    public double steuerKanton() {
     return this.kanton.steuerSatz() / 100;
    }
    public double steuerBund() {
-      return 0.0;
+      return 0.01;
    }
    public double steuerAlle() {
       return steuerGemeinde() + steuerKanton() + steuerBund();
