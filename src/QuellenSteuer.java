@@ -629,17 +629,13 @@ public class QuellenSteuer {
 	     	
 	     	} else if(discriminator[0].equals("GEM")){
 	     		double SummeBruttolohnQUP = 0.0;
-	     		double SummeBruttolohnSSL = 0.0;
-	     		double SummeBruttolohnABR = 0.0;
-	     		double QuellensteuerKanton = 0.0;
-	     		double vermSteuersatz;
 	     		
 	     		if((discriminator.length > 3)||(discriminator.length < 2)){
-	     			System.out.println("falsche Anzahl von Argumenten für KANT angegeben");
+	     			System.out.println("falsche Anzahl von Argumenten für GEM angegeben");
 	     			waitforInput(new String[0]);
 	     		}
 	     		
-	     		String KantID = discriminator[1];
+	     		int bfs = Integer.parseInt(discriminator[1]);
 	     		
 	     		//Prüfen ob ein Jahr migegeben wurde und dieses speichern
 	     		if(discriminator.length == 3){
@@ -653,25 +649,18 @@ public class QuellenSteuer {
 	     		
 	     		//Durch alle Abrechnungen iterieren
 	     		for(ABR a : abrs){
+	     			//Prüfen ob im gewählten Jahr oder ob kein Jahr gewählt
 	     			if((a.getJahr() == year)||(year == 0)){
-		     			for(Gemeinde g: gems){
-		     				if(g.getKantonId().equals(KantID)){ //Prüfen ob der Kanton angewendet wird
-		     					//Abzüge für Kinder für diese ABR berechnen
-			     				vermSteuersatz = vermSatz( g.steuerKanton(), a.getQup().getKinder() );
-		     					//Durch alle Gemeinden iterieren und die Gemiende heraussuchen, welche zum QUP der Abrechnung gehört
-		     					if(a.getQup().getWohnort() == g.getBfs()){
-		     						SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
-		     						QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * vermSteuersatz;
-		     					} else if(!a.getQup().isAnsaessig()){ //Wenn keine Gemeinde für die QUP gefunden wurde, wird geprüft ob der QUP einen Schweizer Wohnisitz hat
-		     						if(a.getSsl().getSitz() == g.getBfs()){
-		     							SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
-		     							QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * vermSteuersatz;
-		     						}
-		     					}
-		     				}
+	     				//Prüfen ob Wohnort für Abrechnung korrekt
+		     			if(a.getQup().getWohnort() == bfs){
+		     				SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
 		     			}
 	     			}
 	     		}
+	     		
+	     		System.out.print("Summe aller Bruttolöhne in Gemeinde " + bfs );
+	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
+	     		System.out.println(": " + SummeBruttolohnQUP);
 	     		
 	      	}else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
