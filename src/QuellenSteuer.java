@@ -579,9 +579,10 @@ public class QuellenSteuer {
 	     		double SummeBruttolohnSSL = 0.0;
 	     		double SummeBruttolohnABR = 0.0;
 	     		double QuellensteuerKanton = 0.0;
+	     		double vermSteuersatz;
 	     		
 	     		if((discriminator.length > 3)||(discriminator.length < 2)){
-	     			System.out.println("falsche Anzahl von Argumenten für BUND angegeben");
+	     			System.out.println("falsche Anzahl von Argumenten für KANT angegeben");
 	     			waitforInput(new String[0]);
 	     		}
 	     		
@@ -596,24 +597,26 @@ public class QuellenSteuer {
 	     				waitforInput(new String[0]);
 	     			}
 	     		}
-     			
-	     		//todo: Kinder und Ansaessig ergänzen
 	     		
 	     		//Durch alle Abrechnungen iterieren
 	     		for(ABR a : abrs){
-	     			for(Gemeinde g: gems){
-	     				if(g.getKantonId().equals(KantID)){ //Prüfen ob der Kanton angewendet wird
-	     					//Durch alle Gemeinden iterieren und die Gemiende heraussuchen, welche zum QUP der Abrechnung gehört
-	     					if(a.getQup().getWohnort() == g.getBfs()){
-	     						SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
-	     						QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * g.steuerKanton();
-	     					} else if(!a.getQup().getHasWohnsitz()){ //Wenn keine Gemeinde für die QUP gefunden wurde, wird geprüft ob der QUP einen Schweizer Wohnisitz hat
-	     						if(a.getSsl().getSitz() == g.getBfs()){
-	     							SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
-	     							QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * g.steuerKanton();
-	     						}
-	     					}
-	     				}		
+	     			if((a.getJahr() == year)||(year == 0)){
+		     			for(Gemeinde g: gems){
+		     				if(g.getKantonId().equals(KantID)){ //Prüfen ob der Kanton angewendet wird
+		     					//Abzüge für Kinder für diese ABR berechnen
+			     				vermSteuersatz = vermSatz( g.steuerKanton(), a.getQup().getKinder() );
+		     					//Durch alle Gemeinden iterieren und die Gemiende heraussuchen, welche zum QUP der Abrechnung gehört
+		     					if(a.getQup().getWohnort() == g.getBfs()){
+		     						SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
+		     						QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * vermSteuersatz;
+		     					} else if(!a.getQup().isAnsaessig()){ //Wenn keine Gemeinde für die QUP gefunden wurde, wird geprüft ob der QUP einen Schweizer Wohnisitz hat
+		     						if(a.getSsl().getSitz() == g.getBfs()){
+		     							SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
+		     							QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * vermSteuersatz;
+		     						}
+		     					}
+		     				}
+		     			}
 	     			}
 	     		}
 	     		
@@ -623,12 +626,72 @@ public class QuellenSteuer {
 	     		System.out.println( "Summe Bruttolohn der SSL für den Kanton (wenn QUP keinen Wohnsitz hat): " + SummeBruttolohnSSL );
 	     		System.out.println( "Summe Bruttolhon der QUP und SSL: " + SummeBruttolohnABR );
 	     		System.out.println( "Quellen Steuer für den Kanton " + KantID + ": " + QuellensteuerKanton );
+	     	
+	     	} else if(discriminator[0].equals("GEM")){
+	     		double SummeBruttolohnQUP = 0.0;
+	     		double SummeBruttolohnSSL = 0.0;
+	     		double SummeBruttolohnABR = 0.0;
+	     		double QuellensteuerKanton = 0.0;
+	     		double vermSteuersatz;
+	     		
+	     		if((discriminator.length > 3)||(discriminator.length < 2)){
+	     			System.out.println("falsche Anzahl von Argumenten für KANT angegeben");
+	     			waitforInput(new String[0]);
+	     		}
+	     		
+	     		String KantID = discriminator[1];
+	     		
+	     		//Prüfen ob ein Jahr migegeben wurde und dieses speichern
+	     		if(discriminator.length == 3){
+	     			try{
+	     				year = Integer.parseInt(discriminator[2]);
+	     			} catch(RuntimeException re){
+	     				System.out.println("Kein gültiges Jahresformat angegeben");
+	     				waitforInput(new String[0]);
+	     			}
+	     		}
+	     		
+	     		//Durch alle Abrechnungen iterieren
+	     		for(ABR a : abrs){
+	     			if((a.getJahr() == year)||(year == 0)){
+		     			for(Gemeinde g: gems){
+		     				if(g.getKantonId().equals(KantID)){ //Prüfen ob der Kanton angewendet wird
+		     					//Abzüge für Kinder für diese ABR berechnen
+			     				vermSteuersatz = vermSatz( g.steuerKanton(), a.getQup().getKinder() );
+		     					//Durch alle Gemeinden iterieren und die Gemiende heraussuchen, welche zum QUP der Abrechnung gehört
+		     					if(a.getQup().getWohnort() == g.getBfs()){
+		     						SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
+		     						QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * vermSteuersatz;
+		     					} else if(!a.getQup().isAnsaessig()){ //Wenn keine Gemeinde für die QUP gefunden wurde, wird geprüft ob der QUP einen Schweizer Wohnisitz hat
+		     						if(a.getSsl().getSitz() == g.getBfs()){
+		     							SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
+		     							QuellensteuerKanton = QuellensteuerKanton + a.getBruttolohn() * vermSteuersatz;
+		     						}
+		     					}
+		     				}
+		     			}
+	     			}
+	     		}
 	     		
 	      	}else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
 	   }
 		
+	}
+	
+	private static double vermSatz(double steuersatz, int kinder){
+		
+		//Obergrenze von 9 Kindern festlegen
+		if(kinder > 9)
+			kinder = 9;
+		
+		//Für jedes Kind 5 Prozent abziehen
+		for(int i = 0; i < kinder; i++){
+			steuersatz = steuersatz * 0.95;
+		}
+		
+		return steuersatz;
 	}
 
 	/* Methode: stat()
@@ -663,7 +726,7 @@ public class QuellenSteuer {
 					System.out.println(gems.toString());
 				}
 				else {
-					
+										
 					if (discriminator[1].equals("k")) {
 						Collections.sort(gems, Gemeinde.GEM_K);
 						System.out.println(gems.toString());

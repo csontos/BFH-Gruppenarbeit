@@ -17,7 +17,6 @@ public class QUP implements Comparable {
 	private boolean Ansaessig;
 	private int Wohnort;
 	private int Kinder;
-	private boolean hasWohnsitz;
 	
 	final static Comparator QUP_K = new QUPkComp();
 	final static Comparator QUP_id = new QUPidComp();
@@ -30,11 +29,6 @@ public class QUP implements Comparable {
 		this.Ansaessig = ansaessig;
 		this.Kinder = kinder;
 		
-		if(this.ID == 0){
-			hasWohnsitz = false;
-		}else{
-			hasWohnsitz = true;
-		}
 	}
 	
 	public int getID() {
@@ -59,10 +53,6 @@ public class QUP implements Comparable {
 
 	public String getName() {
 		return Name;
-	}
-	
-	public boolean getHasWohnsitz() {
-		return hasWohnsitz;
 	}
 
 	public static QUP getQUP(List<String> values) {
