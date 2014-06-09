@@ -536,8 +536,8 @@ public class QuellenSteuer {
 	        
 	        //Qups und Abrs nach ID sortieren, so dass der Vergleich schneller gemacht werden kann
 	        //!!! prüfen ob das am Schluss wirklich gebraucht wird -> währe für performance Steigerung
-	        Collections.sort(qups, QUP.QUP_id);
-	        Collections.sort(abrs, ABR.ABR_bfs);
+	        //Collections.sort(qups, QUP.QUP_id);
+	        //Collections.sort(abrs, ABR.ABR_bfs);
 	        
 	     	if (discriminator[0].equals("BUND")) {
 	     		
