@@ -108,6 +108,10 @@ public class SSL implements Comparable{
 	public int getSitz() {
 		return Sitz;
 	}
+	
+	public String getFirmenname(){
+		return this.Firmenname;
+	}
 
 	private static String format() {
 		      return "Erwartetes Format:\n"+ DISCRIMINATOR + ":" + " ID; Name; Sitz";

@@ -728,6 +728,74 @@ public class QuellenSteuer {
 	     		System.out.println("Quellensteuer Bund für " + NameQup + ": " + QuellensteuerBund);
 	     		System.out.println("Quellensteuer Kanton für " + NameQup + ": " + QuellensteuerKant);
 	     		System.out.println("Quellensteuer Gemeinde für " + NameQup + ": " + QuellensteuerGem);
+	     		System.out.println("Quellensteuer Total für " + NameQup + ": " + QuellensteuerGesamt);
+	     	
+	     	} else if(discriminator[0].equals("SSL")){
+	     		
+	     		double SummeBruttolohnSSL = 0.0;
+	     		double QuellensteuerGesamt = 0.0;
+	     		double QuellensteuerBund = 0.0;
+	     		double QuellensteuerKant = 0.0;
+	     		double QuellensteuerGem = 0.0;
+
+	     		double vermSteuersatzBund = 0.0;
+	     		double vermSteuersatzKant = 0.0;
+	     		double vermSteuersatzGem = 0.0;
+	     		
+	     		String NameSSL = "";
+	     		
+	     		if((discriminator.length > 3)||(discriminator.length < 2)){
+	     			System.out.println("falsche Anzahl von Argumenten für QUP angegeben");
+	     			waitforInput(new String[0]);
+	     		}
+	     		
+	     		int SSLID = Integer.parseInt( discriminator[1] );
+	     		
+	     		//Prüfen ob ein Jahr migegeben wurde und dieses speichern
+	     		if(discriminator.length == 3){
+	     			try{
+	     				year = Integer.parseInt(discriminator[2]);
+	     			} catch(RuntimeException re){
+	     				System.out.println("Kein gültiges Jahresformat angegeben");
+	     				waitforInput(new String[0]);
+	     			}
+	     		}
+	     		
+	     		for(ABR a: abrs){
+	     			//Prüfen ob im gewählten Jahr oder ob kein Jahr gewählt
+	     			if((a.getJahr() == year)||(year == 0)){
+	     				for(Gemeinde g: gems){
+	     						if((g.getBfs() == a.getQup().getWohnort()) || ((!a.getQup().isAnsaessig())) && (a.getSsl().getSitz() == g.getBfs())){
+     							vermSteuersatzBund = vermSatz(g.steuerBund(), a.getQup().getKinder());
+	     						vermSteuersatzKant = vermSatz(g.steuerKanton(), a.getQup().getKinder());
+	     						vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
+     						}
+	     					if(a.getSsl().getSitz() == g.getBfs()){
+	     						
+	     					}
+	     				}
+	     				
+	     				//Summe Bruttolhn pro SSL berechnen
+	     				SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
+	     				//Steuerstätze berechnen
+ 						QuellensteuerBund = QuellensteuerBund + a.getBruttolohn() * vermSteuersatzBund;
+ 						QuellensteuerKant = QuellensteuerKant + a.getBruttolohn() * vermSteuersatzKant;
+ 						QuellensteuerGem = QuellensteuerGem + a.getBruttolohn() * vermSteuersatzGem;
+ 						
+ 						//Name der SSL auslesen 
+ 						if(NameSSL.equals(""))
+ 							NameSSL = a.getSsl().getFirmenname();
+	     			}
+	     			
+	     		}
+	     		
+	     		QuellensteuerGesamt = QuellensteuerBund + QuellensteuerKant + QuellensteuerGem;
+	     		
+	     		System.out.println("Summe Bruttolohn für " + NameSSL + ": " + SummeBruttolohnSSL);
+	     		System.out.println("Quellensteuer Bund für " + NameSSL + ": " + QuellensteuerBund);
+	     		System.out.println("Quellensteuer Kanton für " + NameSSL + ": " + QuellensteuerKant);
+	     		System.out.println("Quellensteuer Gemeinde für " + NameSSL + ": " + QuellensteuerGem);
+	     		System.out.println("Quellensteuer Total für " + NameSSL + ": " + QuellensteuerGesamt);
 	     		
 	      	}else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
