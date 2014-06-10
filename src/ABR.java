@@ -21,6 +21,7 @@ public class ABR implements Comparable{
 	
 	final static Comparator ABR_id = new ABRidComp();
 	final static Comparator ABR_bfs = new ABRbfsComp();
+	final static Comparator ABR_kuerzel = new ABRkuerzelComp();
 	
 	 public ABR(int iD, QUP qup, SSL ssl, int jahr, int monat, double bruttolohn) {
 		this.ID = iD;
@@ -168,5 +169,15 @@ public class ABR implements Comparable{
 			}
 
 		}
+	   
+	   static class ABRkuerzelComp implements Comparator {
+		   public int compare(Object o1, Object o2) {
+			   ABR a1 = (ABR)o1;
+			   ABR a2 = (ABR)o2;
+			   
+			   
+			   return a1.ID - a2.ID;	// wird noch angepasst für Kanton kuerzel, ist nur da damit es keinen Fehler gibt.
+		   }
+	   }
 	
 }

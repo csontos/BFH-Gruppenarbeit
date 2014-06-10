@@ -913,7 +913,28 @@ public class QuellenSteuer {
 				 * Hier noch nach "show ABR kanton_kuerel" implementieren
 				 * Anzeige aller Abrechnungen mit steuerl. relev. Sitz im Kanton
 				 */
+				
 				else {
+					Kanton kuerzel = null;
+					try {
+						kuerzel = Kanton.valueOf(discriminator[1]);
+					} catch (RuntimeException re) {
+						System.out.println("Dieses Kanton Kürzel existiert nicht!");
+					}
+					// debug
+					System.out.println("Kanton ist " + kuerzel);
+					
+					if (kuerzel != null) {
+						/*
+						 * Irgendwie müsste ich hier doch den Kanton weitergeben kann, damit ich nach diesem Sortieren kann.
+						 * Ansonsten müsste ich ja hier bereits eine IF/Case Abfrage für 26 Kantone mit 26 implementierte sorts die das gewünschte zurück liefern..
+						 * Weiss jemand gerade wie das gehen soll?	bzw. Es sollen dann nur noch die Einträge mit diesem Kanton ausgegeben werden, so wie ich das verstehe.
+						 */
+						Collections.sort(abrs, ABR.ABR_kuerzel);
+						System.out.println(abrs.toString());
+					}
+					
+					
 					if (discriminator[1].equals("k")) {
 						Collections.sort(abrs, ABR.ABR_id); // muss noch implementiert werden, daher vorerst ABR_id damit kein Fehler kommt
 						System.out.println(abrs.toString());

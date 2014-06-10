@@ -17,9 +17,12 @@ public enum Kanton {
    private Double[] kantSteuer = { 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 6.0, 5.0, 5.0, 6.0, 5.0, 5.0, 5.0, 5.0,
 		   5.0, 5.0, 5.0, 4.0, 5.0, 5.0, 5.0, 5.0, 6.0, 4.0, 5.0 };
    
+//   public String toString() {
+//      return longNames[this.ordinal()];
+//   }
    public String toString() {
-      return longNames[this.ordinal()];
-   }
+	      return this.name();
+	   }
    public String getID(){
 	   return this.name();
    }
