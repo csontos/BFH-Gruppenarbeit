@@ -883,16 +883,6 @@ public class QuellenSteuer {
 				if(discriminator.length == 1) {
 					Collections.sort(ssls);
 					System.out.println(ssls.toString());
-					
-					/*
-					 * Test von Ausgabe der BFS Nummer um Kanton zu erhalten
-					 */
-					// 	private static List<Gemeinde> gems = new LinkedList<Gemeinde>();
-//					for ( Gemeinde m : gems ) {
-//						int p = m.getBfs();
-//						System.out.println( p );
-//					}
-					
 				}
 				else {
 						
@@ -921,24 +911,56 @@ public class QuellenSteuer {
 					} catch (RuntimeException re) {
 						System.out.println("Dieses Kanton Kürzel existiert nicht!");
 					}
-					// debug
-					System.out.println("Kanton ist " + kuerzel);
+					// debug Ausgabe des ausgewählten Kantons
+					//System.out.println("Kanton ist " + kuerzel);
+					boolean match = false;
 					
-					if (kuerzel != null) {
-						/*
-						 * Irgendwie müsste ich hier doch den Kanton weitergeben kann, damit ich nach diesem Sortieren kann.
-						 * Ansonsten müsste ich ja hier bereits eine IF/Case Abfrage für 26 Kantone mit 26 implementierte sorts die das gewünschte zurück liefern..
-						 * Weiss jemand gerade wie das gehen soll?	bzw. Es sollen dann nur noch die Einträge mit diesem Kanton ausgegeben werden, so wie ich das verstehe.
-						 */
-						Collections.sort(abrs, ABR.ABR_kuerzel);
-						System.out.println(abrs.toString());
+					Collections.sort(abrs);
+					
+					for(int i = 0; i < abrs.size(); i++){
+	     				int sslid = abrs.get(i).getSsl().getID();
+	     				
+	     				for(int j = 0; j < ssls.size(); j++){
+	     					if (sslid == ssls.get(j).getID()) {
+	     						int bfsnr = ssls.get(j).getSitz();
+	     						
+	     						for (int h = 0; h < gems.size(); h++) {
+		     						if (bfsnr == gems.get(h).getBfs()) {
+		     							String kt = gems.get(h).getKantonId();
+		     							
+		     							if (discriminator[1].equals(kt)) {
+		     								match = true;
+		     								// Ausgabe der Abrechnung, dessen SSL Sitz im ausgewählten Kanton (kanton_kuerzel) ist.
+		     								System.out.println(abrs.get(i));
+		     								// optional noch mit Kanton Kürzel
+		     								//System.out.println(abrs.get(i) + " " + kt);
+		     							}
+		     						}
+		     					}
+	     					}
+	     				}
+	     			}
+					
+					if (match == false) {
+						System.out.println("Es wurde keine Abrechnung im Kanton " + kuerzel + " gefunden.");
 					}
 					
 					
-					if (discriminator[1].equals("k")) {
-						Collections.sort(abrs, ABR.ABR_id); // muss noch implementiert werden, daher vorerst ABR_id damit kein Fehler kommt
-						System.out.println(abrs.toString());
-					}
+//					if (kuerzel != null) {
+//						/*
+//						 * Irgendwie müsste ich hier doch den Kanton weitergeben kann, damit ich nach diesem Sortieren kann.
+//						 * Ansonsten müsste ich ja hier bereits eine IF/Case Abfrage für 26 Kantone mit 26 implementierte sorts die das gewünschte zurück liefern..
+//						 * Weiss jemand gerade wie das gehen soll?	bzw. Es sollen dann nur noch die Einträge mit diesem Kanton ausgegeben werden, so wie ich das verstehe.
+//						 */
+//						Collections.sort(abrs, ABR.ABR_kuerzel);
+//						System.out.println(abrs.toString());
+//					}
+					
+					
+//					if (discriminator[1].equals("k")) {
+//						Collections.sort(abrs, ABR.ABR_id); // muss noch implementiert werden, daher vorerst ABR_id damit kein Fehler kommt
+//						System.out.println(abrs.toString());
+//					}
 				}
 				
 			} else {
