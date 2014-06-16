@@ -108,11 +108,7 @@ public class QUP implements Comparable {
 		   /*  Sortierung: name - vorname
 		    * 
 		    */
-		   int cmp = this.Wohnort - that.Wohnort;
-		   if (cmp != 0)
-			   return cmp;
-		   
-		   cmp = this.Name.compareTo(that.Name);
+		   int cmp = this.Name.compareTo(that.Name);
 		   if (cmp != 0)
 			   return cmp;
 		   
@@ -130,11 +126,15 @@ public class QUP implements Comparable {
 				QUP q1 = (QUP)o1;
 				QUP q2 = (QUP)o2;
 				
-				int cmp = q1.Name.compareTo(q2.Name);
+				int cmp = q1.Wohnort - q2.Wohnort;
 				if (cmp != 0)
 					return cmp;
 				
-				cmp = q1.Vorname.compareTo(q2.Vorname)	;
+				cmp = q1.Name.compareTo(q2.Name);
+				if (cmp != 0)
+					return cmp;
+				
+				cmp = q1.Vorname.compareTo(q2.Vorname);
 				if (cmp != 0)
 					return cmp;
 				
