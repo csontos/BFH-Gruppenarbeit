@@ -64,8 +64,7 @@ public class ABR implements Comparable{
 				NewID = 1;
 			} else {
 				Collections.sort(QuellenSteuer.getAbrs(), ABR.ABR_id);
-				int LargestId = QuellenSteuer.getAbrs()
-						.get(QuellenSteuer.getAbrs().size() - 1).getID();
+				int LargestId = QuellenSteuer.getAbrs().get(QuellenSteuer.getAbrs().size() - 1).getID();
 				NewID = LargestId + 1;
 			}
 

@@ -88,8 +88,6 @@ public class QuellenSteuer {
 			/* Aufruf der Funktion imp() */
 			imp(sc);
 
-//			 NICHT MEHR NOTWENDIG??? if (sc != null)
-//				sc.close();
 			
 		} else if (cmd.equals("exp")) {
 			PrintStream out = null;
@@ -534,11 +532,6 @@ public class QuellenSteuer {
 	        String[] discriminator = line.split(" ");
 	        int year = 0;
 	        
-	        //Qups und Abrs nach ID sortieren, so dass der Vergleich schneller gemacht werden kann
-	        //!!! prüfen ob das am Schluss wirklich gebraucht wird -> währe für performance Steigerung
-	        //Collections.sort(qups, QUP.QUP_id);
-	        //Collections.sort(abrs, ABR.ABR_bfs);
-	        
 	     	if (discriminator[0].equals("BUND")) {
 	     		
 	     		if((discriminator.length > 2)||(discriminator.length < 1)){
@@ -546,8 +539,8 @@ public class QuellenSteuer {
 	     			waitforInput(new String[0]);
 	     		}
 
-	     		double SummeBruttolohn = 0.0;
-	     		double QuellensteuerBund = 0.0;
+	     		double SummeBruttolohn = 0.00;
+	     		double QuellensteuerBund = 0.00;
 	     		
 	     		//Falls ein Jahr angegeben wurde wird dieses in die Year Variabel gespeichert. Ansonsten behält die Variabel den Wert 0
 	     		if(discriminator.length == 2){
@@ -567,18 +560,18 @@ public class QuellenSteuer {
 	     			}
 	     		}
 	     		
-	     		System.out.println("Summe Bruttolohn: " + SummeBruttolohn);
+	     		System.out.println("Summe Bruttolohn: " + roundTwo(SummeBruttolohn));
 	     		
 	     		QuellensteuerBund = SummeBruttolohn * 0.01;
 	     		
-	     		System.out.println("Quellensteuer Bund: " + QuellensteuerBund);
+	     		System.out.println("Quellensteuer Bund: " + roundTwo(QuellensteuerBund));
 	     		
 	     	} else if(discriminator[0].equals("KANT")){
 	     		
-	     		double SummeBruttolohnQUP = 0.0;
-	     		double SummeBruttolohnSSL = 0.0;
-	     		double SummeBruttolohnABR = 0.0;
-	     		double QuellensteuerKanton = 0.0;
+	     		double SummeBruttolohnQUP = 0.00;
+	     		double SummeBruttolohnSSL = 0.00;
+	     		double SummeBruttolohnABR = 0.00;
+	     		double QuellensteuerKanton = 0.00;
 	     		double vermSteuersatz;
 	     		
 	     		if((discriminator.length > 3)||(discriminator.length < 2)){
@@ -622,13 +615,13 @@ public class QuellenSteuer {
 	     		
 	     		SummeBruttolohnABR = SummeBruttolohnQUP + SummeBruttolohnSSL;
 	     		
-	     		System.out.println( "Summe Bruttolhon der QUP für den Kanton: " + SummeBruttolohnQUP );
-	     		System.out.println( "Summe Bruttolohn der SSL für den Kanton (wenn QUP keinen Wohnsitz hat): " + SummeBruttolohnSSL );
-	     		System.out.println( "Summe Bruttolhon der QUP und SSL: " + SummeBruttolohnABR );
-	     		System.out.println( "Quellen Steuer für den Kanton " + KantID + ": " + QuellensteuerKanton );
+	     		System.out.println( "Summe Bruttolhon der QUP für den Kanton: " + roundTwo(SummeBruttolohnQUP ));
+	     		System.out.println( "Summe Bruttolohn der SSL für den Kanton (wenn QUP keinen Wohnsitz hat): " + roundTwo(SummeBruttolohnSSL ));
+	     		System.out.println( "Summe Bruttolhon der QUP und SSL: " + roundTwo(SummeBruttolohnABR ));
+	     		System.out.println( "Quellen Steuer für den Kanton " + KantID + ": " + roundTwo(QuellensteuerKanton ));
 	     	
 	     	} else if(discriminator[0].equals("GEM")){
-	     		double SummeBruttolohnQUP = 0.0;
+	     		double SummeBruttolohnQUP = 0.00;
 	     		
 	     		if((discriminator.length > 3)||(discriminator.length < 2)){
 	     			System.out.println("falsche Anzahl von Argumenten für GEM angegeben");
@@ -660,19 +653,19 @@ public class QuellenSteuer {
 	     		
 	     		System.out.print("Summe aller Bruttolöhne in Gemeinde " + bfs );
 	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
-	     		System.out.println(": " + SummeBruttolohnQUP);
+	     		System.out.println(": " + roundTwo(SummeBruttolohnQUP));
 	     	
 	     	} else if(discriminator[0].equals("QUP")){
 	     		
-	     		double SummeBruttolohnQUP = 0.0;
-	     		double QuellensteuerGesamt = 0.0;
-	     		double QuellensteuerBund = 0.0;
-	     		double QuellensteuerKant = 0.0;
-	     		double QuellensteuerGem = 0.0;
+	     		double SummeBruttolohnQUP = 0.00;
+	     		double QuellensteuerGesamt = 0.00;
+	     		double QuellensteuerBund = 0.00;
+	     		double QuellensteuerKant = 0.00;
+	     		double QuellensteuerGem = 0.00;
 
-	     		double vermSteuersatzBund = 0.0;
-	     		double vermSteuersatzKant = 0.0;
-	     		double vermSteuersatzGem = 0.0;
+	     		double vermSteuersatzBund = 0.00;
+	     		double vermSteuersatzKant = 0.00;
+	     		double vermSteuersatzGem = 0.00;
 	     		
 	     		String NameQup = "";
 	     		
@@ -724,23 +717,23 @@ public class QuellenSteuer {
 	     		
 	     		QuellensteuerGesamt = QuellensteuerBund + QuellensteuerKant + QuellensteuerGem;
 	     		
-	     		System.out.println("Summe Bruttolohn für " + NameQup + ": " + SummeBruttolohnQUP);
-	     		System.out.println("Quellensteuer Bund für " + NameQup + ": " + QuellensteuerBund);
-	     		System.out.println("Quellensteuer Kanton für " + NameQup + ": " + QuellensteuerKant);
-	     		System.out.println("Quellensteuer Gemeinde für " + NameQup + ": " + QuellensteuerGem);
-	     		System.out.println("Quellensteuer Total für " + NameQup + ": " + QuellensteuerGesamt);
+	     		System.out.println("Summe Bruttolohn für " + NameQup + ": " + roundTwo(SummeBruttolohnQUP));
+	     		System.out.println("Quellensteuer Bund für " + NameQup + ": " + roundTwo(QuellensteuerBund));
+	     		System.out.println("Quellensteuer Kanton für " + NameQup + ": " + roundTwo(QuellensteuerKant));
+	     		System.out.println("Quellensteuer Gemeinde für " + NameQup + ": " + roundTwo(QuellensteuerGem));
+	     		System.out.println("Quellensteuer Total für " + NameQup + ": " + roundTwo(QuellensteuerGesamt));
 	     	
 	     	} else if(discriminator[0].equals("SSL")){
 	     		
-	     		double SummeBruttolohnSSL = 0.0;
-	     		double QuellensteuerGesamt = 0.0;
-	     		double QuellensteuerBund = 0.0;
-	     		double QuellensteuerKant = 0.0;
-	     		double QuellensteuerGem = 0.0;
+	     		double SummeBruttolohnSSL = 0.00;
+	     		double QuellensteuerGesamt = 0.00;
+	     		double QuellensteuerBund = 0.00;
+	     		double QuellensteuerKant = 0.00;
+	     		double QuellensteuerGem = 0.00;
 
-	     		double vermSteuersatzBund = 0.0;
-	     		double vermSteuersatzKant = 0.0;
-	     		double vermSteuersatzGem = 0.0;
+	     		double vermSteuersatzBund = 0.00;
+	     		double vermSteuersatzKant = 0.00;
+	     		double vermSteuersatzGem = 0.00;
 	     		
 	     		String NameSSL = "";
 	     		
@@ -764,38 +757,37 @@ public class QuellenSteuer {
 	     		for(ABR a: abrs){
 	     			//Prüfen ob im gewählten Jahr oder ob kein Jahr gewählt
 	     			if((a.getJahr() == year)||(year == 0)){
-	     				for(Gemeinde g: gems){
+	     				if(a.getSsl().getID() == SSLID){
+	     					for(Gemeinde g: gems){
 	     						if((g.getBfs() == a.getQup().getWohnort()) || ((!a.getQup().isAnsaessig())) && (a.getSsl().getSitz() == g.getBfs())){
-     							vermSteuersatzBund = vermSatz(g.steuerBund(), a.getQup().getKinder());
-	     						vermSteuersatzKant = vermSatz(g.steuerKanton(), a.getQup().getKinder());
-	     						vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
-     						}
-	     					if(a.getSsl().getSitz() == g.getBfs()){
-	     						
+	     							vermSteuersatzBund = vermSatz(g.steuerBund(), a.getQup().getKinder());
+	     							vermSteuersatzKant = vermSatz(g.steuerKanton(), a.getQup().getKinder());
+	     							vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
+	     						}
 	     					}
-	     				}
 	     				
-	     				//Summe Bruttolhn pro SSL berechnen
-	     				SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
-	     				//Steuerstätze berechnen
- 						QuellensteuerBund = QuellensteuerBund + a.getBruttolohn() * vermSteuersatzBund;
- 						QuellensteuerKant = QuellensteuerKant + a.getBruttolohn() * vermSteuersatzKant;
- 						QuellensteuerGem = QuellensteuerGem + a.getBruttolohn() * vermSteuersatzGem;
+	     					//Summe Bruttolhn pro SSL berechnen
+	     					SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
+	     					//Steuerstätze berechnen
+	     					QuellensteuerBund = QuellensteuerBund + a.getBruttolohn() * vermSteuersatzBund;
+	     					QuellensteuerKant = QuellensteuerKant + a.getBruttolohn() * vermSteuersatzKant;
+	     					QuellensteuerGem = QuellensteuerGem + a.getBruttolohn() * vermSteuersatzGem;
  						
- 						//Name der SSL auslesen 
- 						if(NameSSL.equals(""))
- 							NameSSL = a.getSsl().getFirmenname();
+	     					//Name des SSL setzen
+	     					if(NameSSL == "")
+	     						NameSSL = a.getSsl().getFirmenname();
+	     				}
 	     			}
 	     			
 	     		}
 	     		
 	     		QuellensteuerGesamt = QuellensteuerBund + QuellensteuerKant + QuellensteuerGem;
 	     		
-	     		System.out.println("Summe Bruttolohn für " + NameSSL + ": " + SummeBruttolohnSSL);
-	     		System.out.println("Quellensteuer Bund für " + NameSSL + ": " + QuellensteuerBund);
-	     		System.out.println("Quellensteuer Kanton für " + NameSSL + ": " + QuellensteuerKant);
-	     		System.out.println("Quellensteuer Gemeinde für " + NameSSL + ": " + QuellensteuerGem);
-	     		System.out.println("Quellensteuer Total für " + NameSSL + ": " + QuellensteuerGesamt);
+	     		System.out.println("Summe Bruttolohn für " + NameSSL + ": " + roundTwo(SummeBruttolohnSSL));
+	     		System.out.println("Quellensteuer Bund für " + NameSSL + ": " + roundTwo(QuellensteuerBund));
+	     		System.out.println("Quellensteuer Kanton für " + NameSSL + ": " + roundTwo(QuellensteuerKant));
+	     		System.out.println("Quellensteuer Gemeinde für " + NameSSL + ": " + roundTwo(QuellensteuerGem));
+	     		System.out.println("Quellensteuer Total für " + NameSSL + ": " + roundTwo(QuellensteuerGesamt));
 	     		
 	      	}else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
@@ -816,6 +808,15 @@ public class QuellenSteuer {
 		}
 		
 		return steuersatz;
+	}
+	
+	 private static double roundTwo(double number) { 
+		 double round = Math.round(number*10000); 
+	     round = round / 10000; 
+	     round = Math.round(round*1000); 
+	     round = round / 1000; 
+	     round = Math.round(round*100); 
+	     return round / 100; 
 	}
 
 	/* Methode: stat()
