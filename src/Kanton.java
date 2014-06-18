@@ -5,8 +5,6 @@
  * Description: Klasse für die Kantone
  */
 
-
-
 public enum Kanton {
    AG, AI, AR, BE, BL, BS, FR, GE, GL, GR, JU, LU, NE, NW, OW, SG, SH, SO, SZ, TG, TI, UR, VD, VS, ZG, ZH;
    
@@ -20,13 +18,16 @@ public enum Kanton {
 //   public String toString() {
 //      return longNames[this.ordinal()];
 //   }
-   public String toString() {
-	      return this.name();
-	   }
-   public String getID(){
-	   return this.name();
-   }
-   public double steuerSatz() {
-      return kantSteuer[ this.ordinal() ];
-   }
+   
+	public String toString() {
+		return this.name();
+	}
+
+	public String getID() {
+		return this.name();
+	}
+
+	public double steuerSatz() {
+		return kantSteuer[this.ordinal()];
+	}
 }
