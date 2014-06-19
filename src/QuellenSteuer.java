@@ -1005,7 +1005,12 @@ public class QuellenSteuer {
 	/* Methode: help()
 	 * Zeigt die Hilfe zum Programm an. */
 	private static void help() {
-		 String s = "'QUP: qup_id; name; vorname; wohnort(bfs_nr); ...' (bei nicht vorhandener qup_id wird diese automatisch vergeben)\n"
+		System.out.println( "Das Programm Quellensteuer verwaltet Gemeinden (GEM), Quellensteuerpflichtige (QUP), " +
+				   " Schuldner Steuerbarer Leistungen (SSLs) und Quellensteuerabrechnungen (ABR) und hat folgende Funktionalität:");
+		 String s = "imp  : Einlesen von Datenzeilen (GEMs, SSLs, QUPs und/oder ABRr aus Datei oder stdin\n"
+				+ "       Formate der Zeilen:\n"
+				+ "        'GEM: bfs_nr; kanton_kuerzel; gemeinde_name'\n" 
+				+ "        'QUP: qup_id; name; vorname; wohnort(bfs_nr); ...' (bei nicht vorhandener qup_id wird diese automatisch vergeben)\n"
 				+ "        'SSL: ssl_id; name; sitz(bfs_nr); ...(bei nicht vorhandener ssl_id wird diese automatisch vergeben)\n"
 				+ "        'ABR: abr_id; qup(qup_id); ssl(ssl_id); jahr; monat; betrag...' (bei nicht vorhandender abr_id wird diese automatisch vergeben)\n"
 				+ "exp  : Exportieren von Daten in Datei oder nach stdout\n"
