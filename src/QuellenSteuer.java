@@ -622,6 +622,8 @@ public class QuellenSteuer {
 	     	
 	     	} else if(discriminator[0].equals("GEM")){
 	     		double SummeBruttolohnQUP = 0.00;
+	     		double QuellensteuerGem = 0.00;
+	     		double vermSteuersatzGem = 0.00;
 	     		
 	     		if((discriminator.length > 3)||(discriminator.length < 2)){
 	     			System.out.println("falsche Anzahl von Argumenten für GEM angegeben");
@@ -645,16 +647,30 @@ public class QuellenSteuer {
 	     			//Prüfen ob im gewählten Jahr oder ob kein Jahr gewählt
 	     			if((a.getJahr() == year)||(year == 0)){
 	     				//Prüfen ob Wohnort für Abrechnung korrekt
-		     			if(a.getQup().getWohnort() == bfs){
+		     			if((a.getQup().getWohnort() == bfs) || ((!a.getQup().isAnsaessig())) && (a.getSsl().getSitz() == bfs)){
 		     				SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
+		     				//Gemeinde fèr diese Abrechnung suchen und vermindeter Steuersatz berechnen
+		     				for(Gemeinde g : gems){
+		     					if(g.getBfs() == bfs){
+		     						vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
+		     					}
+		     				}
+		     				//Quellsteuer für die ABR berechnen und addieren
+		     				QuellensteuerGem = QuellensteuerGem + a.getBruttolohn() * vermSteuersatzGem;
 		     			}
 	     			}
 	     		}
 	     		
+	     		//Ausgabe Summe aller Bruttolöhne
 	     		System.out.print("Summe aller Bruttolöhne in Gemeinde " + bfs );
 	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
 	     		System.out.println(": " + roundTwo(SummeBruttolohnQUP));
 	     	
+	     		//Ausgabe Quellsteuer Gemeinde
+	     		System.out.print("Quellensteuer für Gemeinde " + bfs );
+	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
+	     		System.out.println(": " + roundTwo(QuellensteuerGem));
+	     		
 	     	} else if(discriminator[0].equals("QUP")){
 	     		
 	     		double SummeBruttolohnQUP = 0.00;
@@ -974,7 +990,7 @@ public class QuellenSteuer {
 	/* Methode: help()
 	 * Zeigt die Hilfe zum Programm an. */
 	private static void help() {
-		/* 'QUP: qup_id; name; vorname; wohnort(bfs_nr); ...' (bei nicht vorhandener qup_id wird diese automatisch vergeben)\n"
+		 String s = "'QUP: qup_id; name; vorname; wohnort(bfs_nr); ...' (bei nicht vorhandener qup_id wird diese automatisch vergeben)\n"
 				+ "        'SSL: ssl_id; name; sitz(bfs_nr); ...(bei nicht vorhandener ssl_id wird diese automatisch vergeben)\n"
 				+ "        'ABR: abr_id; qup(qup_id); ssl(ssl_id); jahr; monat; betrag...' (bei nicht vorhandender abr_id wird diese automatisch vergeben)\n"
 				+ "exp  : Exportieren von Daten in Datei oder nach stdout\n"
@@ -1020,7 +1036,7 @@ public class QuellenSteuer {
 				+ "            Summe Bruttolöhne aller QUPs, deren ABRs beim SSL erfolgen, sowie Summe Quellensteuer mit Aufteilung an Bund, Kantone und Gemeinden."
 
 		;
-		System.out.println(s);*/
+		System.out.println(s);
 	}
 
 }
