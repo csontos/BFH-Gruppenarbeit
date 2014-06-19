@@ -622,6 +622,8 @@ public class QuellenSteuer {
 	     	
 	     	} else if(discriminator[0].equals("GEM")){
 	     		double SummeBruttolohnQUP = 0.00;
+	     		double SummeBruttolohnSSL = 0.00;
+	     		double SummeBruttolohn = 0.00;
 	     		double QuellensteuerGem = 0.00;
 	     		double vermSteuersatzGem = 0.00;
 	     		
@@ -647,24 +649,37 @@ public class QuellenSteuer {
 	     			//Prüfen ob im gewählten Jahr oder ob kein Jahr gewählt
 	     			if((a.getJahr() == year)||(year == 0)){
 	     				//Prüfen ob Wohnort für Abrechnung korrekt
-		     			if((a.getQup().getWohnort() == bfs) || ((!a.getQup().isAnsaessig())) && (a.getSsl().getSitz() == bfs)){
+		     			if(((a.getQup().getWohnort() == bfs))&&(a.getQup().isAnsaessig())){
 		     				SummeBruttolohnQUP = SummeBruttolohnQUP + a.getBruttolohn();
-		     				//Gemeinde fèr diese Abrechnung suchen und vermindeter Steuersatz berechnen
-		     				for(Gemeinde g : gems){
-		     					if(g.getBfs() == bfs){
-		     						vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
-		     					}
-		     				}
-		     				//Quellsteuer für die ABR berechnen und addieren
-		     				QuellensteuerGem = QuellensteuerGem + a.getBruttolohn() * vermSteuersatzGem;
+		     			} else if ((!a.getQup().isAnsaessig()) && (a.getSsl().getSitz() == bfs)){
+		     				SummeBruttolohnSSL = SummeBruttolohnSSL + a.getBruttolohn();
 		     			}
+		     			//Gemeinde für diese Abrechnung suchen und vermindeter Steuersatz berechnen
+		     			for(Gemeinde g : gems){
+	     					if(g.getBfs() == bfs){
+	     						vermSteuersatzGem = vermSatz(g.steuerGemeinde(), a.getQup().getKinder());
+	     					}
+	     				}
+		     			
+		     			SummeBruttolohn = SummeBruttolohnSSL + SummeBruttolohnQUP;
+		     			
+		     			//Quellsteuer für die ABR berechnen und addieren
+	     				QuellensteuerGem = SummeBruttolohn * vermSteuersatzGem;
 	     			}
 	     		}
 	     		
 	     		//Ausgabe Summe aller Bruttolöhne
-	     		System.out.print("Summe aller Bruttolöhne in Gemeinde " + bfs );
+	     		System.out.print("Summe aller Bruttolöhne von QUPs in der Gemeinde " + bfs );
 	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
 	     		System.out.println(": " + roundTwo(SummeBruttolohnQUP));
+	     		
+	     		System.out.print("Summe aller Bruttolöhne von QUPs mit SSL in der Gemeinde (Falls nicht ansässig) " + bfs );
+	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
+	     		System.out.println(": " + roundTwo(SummeBruttolohnSSL));
+	     		
+	     		System.out.print("Summe aller Bruttolöhne in der Gemeinde (Falls nicht ansässig) " + bfs );
+	     		System.out.print((year == 0) ? " für alle Jahre" : " für das Jahr " + year);
+	     		System.out.println(": " + roundTwo(SummeBruttolohn));
 	     	
 	     		//Ausgabe Quellsteuer Gemeinde
 	     		System.out.print("Quellensteuer für Gemeinde " + bfs );
