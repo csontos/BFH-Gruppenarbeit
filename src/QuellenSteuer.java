@@ -314,11 +314,14 @@ public class QuellenSteuer {
 	 * Diese Methode  löscht bestimmte Einträge in der Liste. Die genaue Syntax zur Löschung ist im Code genauer beschrieben  */
 	private static void del(Scanner sc) {
 	      
-	      String line = "";
+	    String line = "";
 	      
 	      while( true ) {
 	         System.out.println("Eingabe:");
 	         line = sc.nextLine();
+	         
+	       //String vorbereiten um die Listenpositionen der zu löschenden Gems zu speichern
+	 		String deleteId = "";
 	         
 	         if( line==null )
 	            break;
@@ -333,153 +336,208 @@ public class QuellenSteuer {
 	        
 	        /* Abarbeitung der folgenden Abfrage, falls 'del GEM' eingegeben wird. */
 	     	if (discriminator[0] == "GEM" || discriminator[0].equals(Gemeinde.DISCRIMINATOR)) {
-	     		
-	     		if(discriminator.length == 1){
-	     			for(int i = 0; i < gems.size(); i++){
-	     				boolean match = false;
-	     					
-	     				for(int j = 0; j < qups.size(); j++){
-	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
-	     						match = true;
-	     				}
-	     					
-	     				if(match == false){
-	     					gems.remove(i);
-	     				}
-	     			}
-	     		}
-	     		/* Abarbeitung der folgenden Abfrage, falls 'del GEM bfs' eingegeben wird. */
-	     		else if(discriminator[1].equals("bfs")){
-	     			if(discriminator.length != 3){
-	     				System.out.println("Keine BFS Nummer eingegeben. Bitte geben Sie einen Befehl im Format GEM bfs <BFS NR> ein");
-	     				waitforInput(new String[0]);
-	     			}
-	     			
-	     			int bfsid = 0;
-     				try{
-     					bfsid = Integer.parseInt(discriminator[2]);
-     				} 
-     				catch (RuntimeException re) {
-     					System.out.println("BFS ID hat kein valides Format");
-     					waitforInput(new String[0]);
+
+     			for(int i = 0; i < gems.size(); i++){
+     				
+     				boolean match = false;
+ 					
+     				//Durch Qups iterieren und Verknüpfungen auf GEM suchen
+     				for(QUP q: qups){
+     					if(q.getWohnort() == gems.get(i).getBfs())
+     						match = true;
      				}
+     				
+     				//Durch SSLs iteriern und Verknüpfungen auf GEM suchen
+     				for(SSL s: ssls){
+     					if(s.getSitz() == gems.get(i).getBfs())
+     						match = true;
+     				}
+     				
+     				//Falls gelöscht werden soll, wird Position mit Trennzeichen ; gespeichert
+     				if(match == false){
+     					deleteId = deleteId + i + ";"; 
+     				}
+     			}
+     			
+     			//Wenn es Gemeinden zum löschen gibt
+     			if(deleteId.length() > 0){
+     				//zu löschende Positionen in Array schreiben
+     				deleteId = deleteId.substring(0, deleteId.length()-1);
+	     			String[] ArrDeleteId = deleteId.split(";");
 	     			
-	     			for(int i = 0; i < gems.size(); i++){
-	     				boolean match = false;
-     					
-	     				for(int j = 0; j < qups.size(); j++){
-	     					if(qups.get(j).getWohnort() == gems.get(i).getBfs())
-	     						match = true;
-	     				}
-	     				if(match == false){
-	     					if(gems.get(i).getBfs() == bfsid){
-	     						gems.remove(gems.get(i));
-	     					}
-	     				}
+	     			//Geminden die zu löschen sind aufgrund von Position in Liste in ein eigenes Array schreiben
+	     			Gemeinde[] DelGems = new Gemeinde[ArrDeleteId.length];
+	     			for(int i = 0;i < ArrDeleteId.length; i++ ){
+	     				int IntDelId = Integer.parseInt(ArrDeleteId[i]);
+	     				DelGems[i] = gems.get(IntDelId); 
 	     			}
-	     		}
+	     			
+	     			
+     				if(discriminator.length == 1){	
+     					//Gemeinden löschen
+    	     			for(Gemeinde delGem: DelGems){
+    	     				gems.remove(delGem);
+    	     			}
+    	     			
+    	     			System.out.println(DelGems.length + " Gemeinde(n) gelöscht");
+    	     			
+ 					/* Abarbeitung der folgenden Abfrage, falls 'del GEM bfs' eingegeben wird. */
+     				} else if(discriminator[1].equals("bfs")){
+ 		     			if(discriminator.length != 3){
+ 		     				System.out.println("Keine BFS Nummer eingegeben. Bitte geben Sie einen Befehl im Format GEM bfs <BFS NR> ein");
+ 		     				waitforInput(new String[0]);
+ 		     			}
+ 		     			int bfsid = 0;
+ 	     				try{
+ 	     					bfsid = Integer.parseInt(discriminator[2]);
+ 	     				} 
+ 	     				catch (RuntimeException re) {
+ 	     					System.out.println("BFS ID hat kein valides Format");
+ 	     					waitforInput(new String[0]);
+ 	     				}
+ 	     				
+ 	     				//Durch Gems iterieren welche keinen Verknüpfung haben
+ 	     				for(Gemeinde delGem: DelGems){
+ 	     					if(delGem.getBfs() == bfsid) //Wenn bfsid der eingegebenen bfs id entspricht wird das element gelöscht
+ 	     						gems.remove(delGem);
+ 	     						System.out.println("Gemeinde " + bfsid + " gelöscht");
+    	     			}
+ 	     				
+ 		     		}
+     		
+     			} else {
+     				System.out.println("keine Gemeinde gelöscht");
+     			}
 	     	/* Abarbeitung der folgenden Abfrage, falls 'del QUP' eingegeben wird. */
 	     	} else if (discriminator[0] == "QUP" || discriminator[0].equals(QUP.DISCRIMINATOR)) {
 	     		
-	     		if(discriminator.length == 1){
-	     			for(int i = 0; i < qups.size(); i++){
-	     				boolean match = false;
-	     					
-	     				for(int j = 0; j < gems.size(); j++){
-	     					if(gems.get(j).getBfs() == qups.get(i).getWohnort())
-	     						match = true;
-	     				}
-	     					
-	     				if(match == false){
-	     					qups.remove(i);
-	     				}
-	     			}
-	     		}
-	     		/* Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird. */
-	     		else if(discriminator[1].equals("id")){
-	     			if(discriminator.length != 3){
-	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format QUP ID <ID> ein");
-	     				waitforInput(new String[0]);
+	 			for(int i = 0; i < qups.size(); i++){
+	 				boolean match = false;
+	 					
+	 				for(ABR a: abrs){
+	 					if(a.getQup().getID() == qups.get(i).getID())
+	 						match = true;
+	 				}
+	 					
+	 				if(match == false){
+	 					deleteId = deleteId + i + ";"; 
+	 				}
+	 			}
+	 			
+	 			//Wenn es QUPs zum löschen gibt
+	 			if(deleteId.length() > 0){
+	 				//zu löschende Positionen in Array schreiben
+	 				deleteId = deleteId.substring(0, deleteId.length()-1);
+	     			String[] ArrDeleteId = deleteId.split(";");
+	     			
+	     			//Geminden die zu löschen sind aufgrund von Position in Liste in ein eigenes Array schreiben
+	     			QUP[] DelQups = new QUP[ArrDeleteId.length];
+	     			for(int i = 0;i < ArrDeleteId.length; i++ ){
+	     				int IntDelId = Integer.parseInt(ArrDeleteId[i]);
+	     				DelQups[i] = qups.get(IntDelId); 
 	     			}
 	     			
-	     			int qupsid = 0;
-     				try{
-     					qupsid = Integer.parseInt(discriminator[2]);
-     				} 
-     				catch (RuntimeException re) {
-     					System.out.println("Die QUP ID hat kein valides Format");
-     					waitforInput(new String[0]);
-     				}
 	     			
-	     			for(int i = 0; i < qups.size(); i++){
-	     				boolean match = false;
-	     				
-	     				for(int j = 0; j < gems.size(); j++){
-	     					if(gems.get(j).getBfs() == qups.get(i).getWohnort())
-	     						match = true;
+	 				if(discriminator.length == 1){	
+	 					//Gemeinden löschen
+		     			for(QUP delQup: DelQups){
+		     				qups.remove(delQup);
+		     			}
+		     			
+		     			System.out.println(DelQups.length + " QUP(s) gelöscht");
+		     			
+		     		/* Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird. */
+	 				} else if(discriminator[1].equals("id")){
+	 					if(discriminator.length != 3){
+		     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format QUP ID <ID> ein");
+		     				waitforInput(new String[0]);
+		     			}
+		     			
+		     			int qupsid = 0;
+	     				try{
+	     					qupsid = Integer.parseInt(discriminator[2]);
+	     				} 
+	     				catch (RuntimeException re) {
+	     					System.out.println("Die QUP ID hat kein valides Format");
+	     					waitforInput(new String[0]);
 	     				}
 	     				
-	     				if(match == false){
-		     				if(qups.get(i).getID() == qupsid){
-		     					qups.remove(qups.get(i));
-		     				}
-	     				}
-	     			}
-	     		}
+	     				//Durch Gems iterieren welche keinen Verknüpfung haben
+	     				for(QUP delQup: DelQups){
+	     					System.out.println("delQup: " + delQup.getID() + " qupsid: " + qupsid);
+	     					if(delQup.getID() == qupsid){ //Wenn bfsid der eingegebenen bfs id entspricht wird das element gelöscht
+	     						qups.remove(delQup);
+	     						System.out.println("QUP " + qupsid + " gelöscht");
+	     					}
+		     			}
+	 				}
+	 			}
 	     	/* Abarbeitung der folgenden Abfrage, falls 'del SSL' eingegeben wird.	*/
 	      	} else if (discriminator[0] == "SSL" || discriminator[0].equals(SSL.DISCRIMINATOR)) {
-	     	
-	      		if(discriminator.length == 1){
-	     			for(int i = 0; i < ssls.size(); i++){
-	     				boolean match = false;
-	     					
-	     				for(int j = 0; j < gems.size(); j++){
-	     					if(gems.get(j).getBfs() == ssls.get(i).getSitz())
-	     						match = true;
-	     				}
-	     					
-	     				if(match == false){
-	     					ssls.remove(i);
-	     				}
-	     			}
-	     		}
-	      		/* Abarbeitung der folgenden Abfrage, falls 'del SSL id' eingegeben wird. */
-	      		else if(discriminator[1].equals("id")){
-	     			if(discriminator.length != 3){
-	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format SSL ID <ID> ein");
-	     				waitforInput(new String[0]);
-	     			}
-	     			
-	     			int sslid = 0;
-     				try{
-     					sslid = Integer.parseInt(discriminator[2]);
-     				} 
-     				catch (RuntimeException re) {
-     					System.out.println("SSL ID hat kein valides Format");
-     					waitforInput(new String[0]);
+
+     			for(int i = 0; i < ssls.size(); i++){
+     				boolean match = false;
+     					
+     				for(ABR a: abrs){
+     					if(a.getSsl().getID() == ssls.get(i).getID())
+     						match = true;
      				}
+     					
+     				if(match == false){
+     					deleteId = deleteId + i + ";"; 
+     				}
+     			}
+     			//Wenn es Gemeinden zum löschen gibt
+	 			if(deleteId.length() > 0){
+	 				//zu löschende Positionen in Array schreiben
+	 				deleteId = deleteId.substring(0, deleteId.length()-1);
+	     			String[] ArrDeleteId = deleteId.split(";");
 	     			
-	     			for(int i = 0; i < ssls.size(); i++){
-	     				boolean match = false;
-	     				for(int j = 0; j < gems.size(); j++){
-	     					if(gems.get(j).getBfs() == ssls.get(i).getSitz())
-	     						match = true;
-	     				}
-	     				if(match == false){
-	     				if(ssls.get(i).getID() == sslid){
-	     					ssls.remove(ssls.get(i));
-	     				}
-	     				}
+	     			//Geminden die zu löschen sind aufgrund von Position in Liste in ein eigenes Array schreiben
+	     			SSL[] DelSsls = new SSL[ArrDeleteId.length];
+	     			for(int i = 0;i < ArrDeleteId.length; i++ ){
+	     				int IntDelId = Integer.parseInt(ArrDeleteId[i]);
+	     				DelSsls[i] = ssls.get(IntDelId); 
 	     			}
+	     			
+	 				if(discriminator.length == 1){	
+	 					//Gemeinden löschen
+		     			for(SSL delSsl: DelSsls){
+		     				ssls.remove(delSsl);
+		     			}
+		     			
+		     			System.out.println(DelSsls.length + " SSL(s) gelöscht");
+		     			
+		     		/* Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird. */
+	 				} else if(discriminator[1].equals("id")){
+	 					if(discriminator.length != 3){
+	 						System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format SSL ID <ID> ein");
+		     				waitforInput(new String[0]);
+		     			}
+	 					
+	 					int sslid = 0;
+	     				try{
+	     					sslid = Integer.parseInt(discriminator[2]);
+	     				} 
+	     				catch (RuntimeException re) {
+	     					System.out.println("SSL ID hat kein valides Format");
+	     					waitforInput(new String[0]);
+	     				}
+	     				
+	     				//Durch Gems iterieren welche keinen Verknüpfung haben
+	     				for(SSL delSsl: DelSsls){
+	     					if(delSsl.getID() == sslid){ //Wenn bfsid der eingegebenen bfs id entspricht wird das element gelöscht
+	     						ssls.remove(delSsl);
+	     						System.out.println("SSL " + sslid + " gelöscht");
+	     					}
+		     			}
+	 				}
 	     		}
 	      	/* Abarbeitung der folgenden Abfrage, falls 'del ABR' eingegeben wird. */
 	      	} else if (discriminator[0] == "ABR" || discriminator[0].equals(ABR.DISCRIMINATOR)) {
-	     	
 	      		if(discriminator.length == 1){
 	     			for(int i = 0; i < abrs.size(); i++){
-	     	
 	     					abrs.remove(i);
-	     				
 	     			}
 	     			/* Abarbeitung der folgenden Abfrage, falls 'del ABR id' eingegeben wird. */	
 	     		} else if(discriminator[1].equals("id")){
@@ -503,13 +561,10 @@ public class QuellenSteuer {
 	     				}
 	     			}
 	     		}
-	      	}	else {
+	      	} else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
 	     	}
-	   }
-		
-		//ToDo: Prüfung für alle Argumente WAS IST DAMIT GEMEINT??
-		
+	     }
 	}
 	
 	/* Methode: stat()
