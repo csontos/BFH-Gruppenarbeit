@@ -115,7 +115,7 @@ public class ABR implements Comparable{
 	}
 
 	public String toString() {
-		return ID + "; " + Bruttolohn + "; " + Jahr + "; " + Monat;
+		return ID + "; " + Bruttolohn + "; " + Ssl.getFirmenname() + "; " + Jahr + "; " + Monat;
 	}
 
 	public int compareTo(Object o) {
