@@ -17,15 +17,18 @@ public class QUP implements Comparable {
 	private boolean Ansaessig;
 	private int Wohnort;
 	private int Kinder;
+	private Gemeinde Gem;	// FIF 20.06.2014
 	
 	final static Comparator QUP_K = new QUPkComp();
 	final static Comparator QUP_id = new QUPidComp();
 
-	public QUP(int ID, String name, String vorname, int wohnort, boolean ansaessig, int kinder) {
+//	public QUP(int ID, String name, String vorname, int wohnort, boolean ansaessig, int kinder) {	// FIF 20.06.2014
+	public QUP(int ID, String name, String vorname, Gemeinde gem, boolean ansaessig, int kinder) {
 		this.ID = ID;
 		this.Name = name;
 		this.Vorname = vorname;
-		this.Wohnort = wohnort;
+		this.Gem = gem;					// FIF 20.06.2014
+ 		this.Wohnort = Gem.getBfs();	// FIF 20.06.2014
 		this.Ansaessig = ansaessig;
 		this.Kinder = kinder;
 		
@@ -96,7 +99,8 @@ public class QUP implements Comparable {
 	}
 	
 	   public String toString(){
-		   return Wohnort + "; " + Name + "; " + Vorname;
+//		   return Wohnort + "; " + Name + "; " + Vorname;	// FIF 20.06.2014
+		   return Gem.getKanton() + "; " + Name + "; " + Vorname;	// FIF 20.06.2014
 	   }
 	
 	   public int compareTo( Object o ) {
