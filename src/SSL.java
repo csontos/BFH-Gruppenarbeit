@@ -16,6 +16,7 @@ public class SSL implements Comparable{
 	private String Firmenname;
 	private int Sitz;
 	private String Wohnkanton;
+	private String Wohngemeinde;
 	
 	final static Comparator SSL_id = new SSLidComp();
 	final static Comparator SSL_K = new SSLkComp();
@@ -57,9 +58,9 @@ public class SSL implements Comparable{
 		}
 	}
 	
-	   public String toString(){
-		   return ID + "; " + Firmenname + "; " + getWohnkanton();
-	   }
+	public String toString(){
+		return Firmenname + "; " + getGemeindeName() + "; " + getWohnkanton();
+	}
 	
 	static class SSLidComp implements Comparator {
 		public int compare(Object o1, Object o2) {
@@ -78,7 +79,8 @@ public class SSL implements Comparable{
 				SSL s1 = (SSL)o1;
 				SSL s2 = (SSL)o2;
 				// Sitz noch vergleichen. Wiso int? entspricht dies der BFS Nr.?
-				int cmp = s1.Sitz - s2.Sitz;
+				//int cmp = s1.Sitz - s2.Sitz;
+				int cmp = s1.getWohnkanton().compareTo(s2.getWohnkanton());
 				if (cmp != 0)
 					return cmp;
 				cmp = s1.Firmenname.compareTo(s2.Firmenname);
@@ -104,6 +106,16 @@ public class SSL implements Comparable{
 			}
 		}
 		return Wohnkanton;
+	}
+	
+	public String getGemeindeName() {
+		Wohngemeinde = "";
+		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
+			if (QuellenSteuer.getGems().get(i).getBfs() == Sitz) {
+				Wohngemeinde = QuellenSteuer.getGems().get(i).getGemeindeName();
+			}
+		}
+		return Wohngemeinde;
 	}
 	
 	public String getFirmenname(){

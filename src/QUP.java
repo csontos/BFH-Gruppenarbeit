@@ -16,8 +16,6 @@ public class QUP implements Comparable {
 	private String Vorname;
 	private boolean Ansaessig;
 	private int Kinder;
-	private Gemeinde Gem;	// FIF 20.06.2014
-	
 	private int Wohnort;
 	private String Wohnkanton;
 
@@ -31,8 +29,6 @@ public class QUP implements Comparable {
  		this.Wohnort = wohnort;
 		this.Ansaessig = ansaessig;
 		this.Kinder = kinder;
-		
-		this.Kinder = kinder;	
 	}
 	
 	public int getID() {
