@@ -29,6 +29,10 @@ public class QuellenSteuer {
 		return ssls;
 	}
 	
+	public static List<Gemeinde> getGems() {
+		return gems;
+	}
+	
 	public static List<QUP> getQups() {
 		return qups;
 	}

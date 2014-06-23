@@ -15,23 +15,20 @@ public class QUP implements Comparable {
 	private String Name;
 	private String Vorname;
 	private boolean Ansaessig;
-	private int Wohnort;
 	private int Kinder;
-	private Gemeinde Gem;	// FIF 20.06.2014
+	private int Wohnort;
+	private String Wohnkanton;
 
 	final static Comparator QUP_K = new QUPkComp();
 	final static Comparator QUP_id = new QUPidComp();
 
-//	public QUP(int ID, String name, String vorname, int wohnort, boolean ansaessig, int kinder) {	// FIF 20.06.2014
-	public QUP(int ID, String name, String vorname, Gemeinde gem, boolean ansaessig, int kinder) {
+	public QUP(int ID, String name, String vorname, int wohnort, boolean ansaessig, int kinder) {
 		this.ID = ID;
 		this.Name = name;
 		this.Vorname = vorname;
-		this.Gem = gem;					// FIF 20.06.2014
- 		this.Wohnort = Gem.getBfs();	// FIF 20.06.2014
+ 		this.Wohnort = wohnort;
 		this.Ansaessig = ansaessig;
-		this.Kinder = kinder;
-
+		this.Kinder = kinder;	
 	}
 
 	public int getID() {
@@ -44,6 +41,16 @@ public class QUP implements Comparable {
 
 	public int getWohnort() {
 		return Wohnort;
+	}
+	
+	public String getWohnkanton() {
+		Wohnkanton = "";
+		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
+			if (QuellenSteuer.getGems().get(i).getBfs() == Wohnort) {
+				Wohnkanton = QuellenSteuer.getGems().get(i).getKanton();
+			}
+		}
+		return Wohnkanton;
 	}
 
 	public boolean isAnsaessig() {
@@ -90,7 +97,8 @@ public class QUP implements Comparable {
 			throw new RuntimeException("Falsche Anzahl von Werten: "
 					+ values.size() + "\n" + format());
 		}
-		try {
+		
+		try {			
 			return new QUP(NewID, name, vorname, wohnort, ansaesig, kinder);
 		} catch (RuntimeException r) {
 			throw new RuntimeException("Error: " + r.getMessage() + "\n"
@@ -99,8 +107,7 @@ public class QUP implements Comparable {
 	}
 
 	   public String toString(){
-//		   return Wohnort + "; " + Name + "; " + Vorname;	// FIF 20.06.2014
-		   return Gem.getKanton() + "; " + Name + "; " + Vorname;	// FIF 20.06.2014
+		   return getWohnkanton() + "; " + Name + "; " + Vorname;
 	   }
 
 	   public int compareTo( Object o ) {
