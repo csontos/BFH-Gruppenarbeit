@@ -29,6 +29,10 @@ public class QuellenSteuer {
 		return ssls;
 	}
 	
+	public static List<Gemeinde> getGems() {
+		return gems;
+	}
+	
 	public static List<QUP> getQups() {
 		return qups;
 	}
@@ -382,14 +386,11 @@ public class QuellenSteuer {
     	     			System.out.println(DelGems.length + " Gemeinde(n) gelöscht");
     	     			
  					/* Abarbeitung der folgenden Abfrage, falls 'del GEM bfs' eingegeben wird. */
-     				} else if(discriminator[1].equals("bfs")){
- 		     			if(discriminator.length != 3){
- 		     				System.out.println("Keine BFS Nummer eingegeben. Bitte geben Sie einen Befehl im Format GEM bfs <BFS NR> ein");
- 		     				waitforInput(new String[0]);
- 		     			}
+     				} else if(discriminator.length <= 2){
+ 		     			
  		     			int bfsid = 0;
  	     				try{
- 	     					bfsid = Integer.parseInt(discriminator[2]);
+ 	     					bfsid = Integer.parseInt(discriminator[1]);
  	     				} 
  	     				catch (RuntimeException re) {
  	     					System.out.println("BFS ID hat kein valides Format");
@@ -398,11 +399,15 @@ public class QuellenSteuer {
  	     				
  	     				//Durch Gems iterieren welche keinen Verknüpfung haben
  	     				for(Gemeinde delGem: DelGems){
- 	     					if(delGem.getBfs() == bfsid) //Wenn bfsid der eingegebenen bfs id entspricht wird das element gelöscht
+ 	     					if(delGem.getBfs() == bfsid){ //Wenn bfsid der eingegebenen bfs id entspricht wird das element gelöscht
  	     						gems.remove(delGem);
  	     						System.out.println("Gemeinde " + bfsid + " gelöscht");
+ 	     					}
     	     			}
  	     				
+ 		     		} else {
+ 		     			System.out.println("Keine gültige Eingabe");
+	     				waitforInput(new String[0]);
  		     		}
      		
      			} else {
@@ -447,15 +452,11 @@ public class QuellenSteuer {
 		     			System.out.println(DelQups.length + " QUP(s) gelöscht");
 		     			
 		     		/* Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird. */
-	 				} else if(discriminator[1].equals("id")){
-	 					if(discriminator.length != 3){
-		     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format QUP ID <ID> ein");
-		     				waitforInput(new String[0]);
-		     			}
+	 				} else if(discriminator.length <= 2){
 		     			
 		     			int qupsid = 0;
 	     				try{
-	     					qupsid = Integer.parseInt(discriminator[2]);
+	     					qupsid = Integer.parseInt(discriminator[1]);
 	     				} 
 	     				catch (RuntimeException re) {
 	     					System.out.println("Die QUP ID hat kein valides Format");
@@ -464,12 +465,14 @@ public class QuellenSteuer {
 	     				
 	     				//Durch Gems iterieren welche keinen Verknüpfung haben
 	     				for(QUP delQup: DelQups){
-	     					System.out.println("delQup: " + delQup.getID() + " qupsid: " + qupsid);
 	     					if(delQup.getID() == qupsid){ //Wenn bfsid der eingegebenen bfs id entspricht wird das element gelöscht
 	     						qups.remove(delQup);
 	     						System.out.println("QUP " + qupsid + " gelöscht");
 	     					}
 		     			}
+	 				}else{
+	 					System.out.println("Keine gültige Eingabe");
+	     				waitforInput(new String[0]);
 	 				}
 	 			}
 	     	/* Abarbeitung der folgenden Abfrage, falls 'del SSL' eingegeben wird.	*/
@@ -509,15 +512,11 @@ public class QuellenSteuer {
 		     			System.out.println(DelSsls.length + " SSL(s) gelöscht");
 		     			
 		     		/* Abarbeitung der folgenden Abfrage, falls 'del QUP id' eingegeben wird. */
-	 				} else if(discriminator[1].equals("id")){
-	 					if(discriminator.length != 3){
-	 						System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format SSL ID <ID> ein");
-		     				waitforInput(new String[0]);
-		     			}
+	 				} else if(discriminator.length >= 2){
 	 					
 	 					int sslid = 0;
 	     				try{
-	     					sslid = Integer.parseInt(discriminator[2]);
+	     					sslid = Integer.parseInt(discriminator[1]);
 	     				} 
 	     				catch (RuntimeException re) {
 	     					System.out.println("SSL ID hat kein valides Format");
@@ -531,35 +530,39 @@ public class QuellenSteuer {
 	     						System.out.println("SSL " + sslid + " gelöscht");
 	     					}
 		     			}
+	 				} else {
+	 					System.out.println("Keine gültige Eingabe");
+	     				waitforInput(new String[0]);
 	 				}
 	     		}
 	      	/* Abarbeitung der folgenden Abfrage, falls 'del ABR' eingegeben wird. */
 	      	} else if (discriminator[0] == "ABR" || discriminator[0].equals(ABR.DISCRIMINATOR)) {
 	      		if(discriminator.length == 1){
-	     			for(int i = 0; i < abrs.size(); i++){
-	     					abrs.remove(i);
+	     			for(int i = abrs.size()-1; i >= 0; i--){
+	     				abrs.remove(i);
 	     			}
+	     			System.out.println("Alle Abrechnungen wurden gelöscht");
 	     			/* Abarbeitung der folgenden Abfrage, falls 'del ABR id' eingegeben wird. */	
-	     		} else if(discriminator[1].equals("id")){
-	     			if(discriminator.length != 3){
-	     				System.out.println("Keine ID eingegeben. Bitte geben Sie einen Befehl im Format ABR ID <ID> ein");
-	     				waitforInput(new String[0]);
-	     			}
-	     			
+	     		} else if(discriminator.length <= 2){
+
 	     			int abrid = 0;
      				try {
-     					abrid = Integer.parseInt(discriminator[2]);
+     					abrid = Integer.parseInt(discriminator[1]);
      				} 
      				catch (RuntimeException re) {
      					System.out.println("ABR ID hat kein valides Format");
      					waitforInput(new String[0]);
      				}
 	     			
-	     			for(int i = 0; i < abrs.size(); i++) {
+     				for(int i = abrs.size()-1; i >= 0; i--){
 	     				if(abrs.get(i).getID() == abrid) {
 	     					abrs.remove(abrs.get(i));
 	     				}
 	     			}
+     				System.out.println("Abrechnung mit der id " + abrid + " wurde erfolgreich gelöscht");
+	     		} else {
+	     			System.out.println("Keine gültige Eingabe");
+     				waitforInput(new String[0]);
 	     		}
 	      	} else {
 	            System.out.println("Parsing error. Kein gültiger Discriminator: " + discriminator);
