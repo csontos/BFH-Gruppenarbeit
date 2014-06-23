@@ -15,7 +15,6 @@ public class SSL implements Comparable{
 	private int ID; //wenn es diese nicht gibt, setzen
 	private String Firmenname;
 	private int Sitz;
-	private String Wohnkanton;
 	
 	final static Comparator SSL_id = new SSLidComp();
 	final static Comparator SSL_K = new SSLkComp();
@@ -58,7 +57,7 @@ public class SSL implements Comparable{
 	}
 	
 	   public String toString(){
-		   return ID + "; " + Firmenname + "; " + getWohnkanton();
+		   return ID + "; " + Firmenname + "; " + Sitz;
 	   }
 	
 	static class SSLidComp implements Comparator {
@@ -78,12 +77,26 @@ public class SSL implements Comparable{
 				SSL s1 = (SSL)o1;
 				SSL s2 = (SSL)o2;
 				// Sitz noch vergleichen. Wiso int? entspricht dies der BFS Nr.?
+
+				/*
+				 * Test von Auslesen des Kantons
+				 */
+//				System.out.println("s1 Sitz " + s1.Sitz);
+//				System.out.println("s2 Sitz " + s2.Sitz);
+//				Gemeinde.getGemeinde(s1.Sitz)
+//				for ( Gemeinde m : Gemeinde ) {
+//					int p = m.getBfs();
+//					System.out.println( p );
+//				}
+				
 				int cmp = s1.Sitz - s2.Sitz;
 				if (cmp != 0)
 					return cmp;
+				
 				cmp = s1.Firmenname.compareTo(s2.Firmenname);
 				if (cmp != 0)
 					return cmp;
+				
 				return 0;
 			}
 	   }
@@ -96,23 +109,13 @@ public class SSL implements Comparable{
 		return Sitz;
 	}
 	
-	public String getWohnkanton() {
-		Wohnkanton = "";
-		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
-			if (QuellenSteuer.getGems().get(i).getBfs() == Sitz) {
-				Wohnkanton = QuellenSteuer.getGems().get(i).getKanton();
-			}
-		}
-		return Wohnkanton;
-	}
-	
 	public String getFirmenname(){
 		return this.Firmenname;
 	}
 
 	private static String format() {
 		      return "Erwartetes Format:\n"+ DISCRIMINATOR + ":" + " ID; Name; Sitz";
-	}
+		   }
 
 
 	public int compareTo(Object o) {
@@ -127,5 +130,10 @@ public class SSL implements Comparable{
 			return cmp;
 		
 		return 0;
+		/*
+		 * Auskommentiert. compareTo wird ja für die Standardsortierung vewendet. ID gibt es ja
+		 * bereits eine oder?
+		 */
+		//return this.getID() - that.getID();
 	}	   
 }
