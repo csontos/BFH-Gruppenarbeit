@@ -40,6 +40,7 @@ public class QuellenSteuer {
 	public static List<ABR> getAbrs() {
 		return abrs;
 	}
+
 	
 	/* Methode: main()
 	 * Aufruf der Methode waitforinput() */

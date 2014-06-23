@@ -18,6 +18,7 @@ public class QUP implements Comparable {
 	private int Kinder;
 	private int Wohnort;
 	private String Wohnkanton;
+	private double steuer;
 
 	final static Comparator QUP_K = new QUPkComp();
 	final static Comparator QUP_id = new QUPidComp();
@@ -133,7 +134,8 @@ public class QUP implements Comparable {
 				QUP q1 = (QUP)o1;
 				QUP q2 = (QUP)o2;
 				
-				int cmp = q1.Wohnort - q2.Wohnort;
+				//int cmp = q1.Wohnort - q2.Wohnort;
+				int cmp = q1.getWohnkanton().compareTo(q2.getWohnkanton());
 				if (cmp != 0)
 					return cmp;
 				
