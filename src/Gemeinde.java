@@ -32,6 +32,10 @@ public class Gemeinde implements Comparable {
 	   return bfs;
    }
    
+   public String getGemeindeName() {
+	   return name;
+   }
+   
    public String getKanton(){
 	   return this.kanton.toString();
    }

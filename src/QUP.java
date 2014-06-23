@@ -18,6 +18,7 @@ public class QUP implements Comparable {
 	private int Kinder;
 	private int Wohnort;
 	private String Wohnkanton;
+	private double steuer;
 
 	final static Comparator QUP_K = new QUPkComp();
 	final static Comparator QUP_id = new QUPidComp();
@@ -28,13 +29,13 @@ public class QUP implements Comparable {
 		this.Vorname = vorname;
  		this.Wohnort = wohnort;
 		this.Ansaessig = ansaessig;
-		this.Kinder = kinder;	
+		this.Kinder = kinder;
 	}
-
+	
 	public int getID() {
 		return ID;
 	}
-
+	
 	public int getKinder() {
 		return Kinder;
 	}
@@ -72,7 +73,7 @@ public class QUP implements Comparable {
 		int wohnort;
 		boolean ansaesig;
 		int kinder;
-
+		
 		if (values.size() == 5) {
 			if(QuellenSteuer.getQups().size() == 0) {
 				NewID = 1;
@@ -105,11 +106,11 @@ public class QUP implements Comparable {
 					+ format());
 		}
 	}
-
+	
 	   public String toString(){
 		   return getWohnkanton() + "; " + Name + "; " + Vorname;
 	   }
-
+	
 	   public int compareTo( Object o ) {
 		   QUP that = (QUP)o;
 		   /*  Sortierung: name - vorname
@@ -118,33 +119,34 @@ public class QUP implements Comparable {
 		   int cmp = this.Name.compareTo(that.Name);
 		   if (cmp != 0)
 			   return cmp;
-
+		   
 		   cmp = this.Vorname.compareTo(that.Vorname);
 		   if (cmp != 0)
 			   return cmp;
-
+		   
 		   return 0;
 	   }
-
+	   
 	   static class QUPkComp implements Comparator {
 		   /*  Sortierung: Kanton - Name - bfs
 		    */
 			public int compare(Object o1, Object o2) {
 				QUP q1 = (QUP)o1;
 				QUP q2 = (QUP)o2;
-
-				int cmp = q1.Wohnort - q2.Wohnort;
+				
+				//int cmp = q1.Wohnort - q2.Wohnort;
+				int cmp = q1.getWohnkanton().compareTo(q2.getWohnkanton());
 				if (cmp != 0)
 					return cmp;
-
+				
 				cmp = q1.Name.compareTo(q2.Name);
 				if (cmp != 0)
 					return cmp;
-
+				
 				cmp = q1.Vorname.compareTo(q2.Vorname);
 				if (cmp != 0)
 					return cmp;
-
+				
 				return 0;
 			}
 	   }
@@ -158,7 +160,7 @@ public class QUP implements Comparable {
 		public int compare(Object o1, Object o2) {
 			QUP q1 = (QUP)o1;
 			QUP q2 = (QUP)o2;
-
+			
 			return q1.ID - q2.ID;
 		}
 

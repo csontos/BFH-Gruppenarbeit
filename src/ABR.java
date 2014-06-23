@@ -129,12 +129,15 @@ public class ABR implements Comparable{
 		boolean tmp = Qup.isAnsaessig();
 
 		if (tmp == true) {
-			cmp = this.Qup.getWohnort() - that.getQup().getWohnort();
+			//cmp = this.Qup.getWohnort() - that.getQup().getWohnort();
+			cmp = this.Qup.getWohnkanton().compareTo(that.Qup.getWohnkanton());
+			
 		} else {
-			cmp = this.Ssl.getSitz() - that.getSsl().getSitz();
+			//cmp = this.Ssl.getSitz() - that.getSsl().getSitz();
+			cmp = this.Ssl.getWohnkanton().compareTo(that.Ssl.getWohnkanton());
 		}
 
-		return -cmp;
+		return cmp;
 	}
 
 	private static String format() {
