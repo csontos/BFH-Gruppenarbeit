@@ -124,16 +124,18 @@ public class ABR implements Comparable{
 		 * Anzeige aller Abrechnungen. Sortierung nach steuerlich relevantem
 		 * Sitz vergleich wohnsaessig
 		 */
+		//cmp = this.Qup.getWohnort() - that.getQup().getWohnort();
 		int cmp;
+		boolean tmp1 = this.Qup.isAnsaessig();
+		boolean tmp2 = that.Qup.isAnsaessig();
 
-		boolean tmp = Qup.isAnsaessig();
-
-		if (tmp == true) {
-			//cmp = this.Qup.getWohnort() - that.getQup().getWohnort();
+		if (tmp1 == true && tmp2 == true) {	
 			cmp = this.Qup.getWohnkanton().compareTo(that.Qup.getWohnkanton());
-			
+		} else if (tmp1 == true && tmp2 == false) {
+			cmp = this.Qup.getWohnkanton().compareTo(that.Ssl.getWohnkanton());
+		} else if ( tmp1 == false && tmp2 == true) {
+			cmp = this.Ssl.getWohnkanton().compareTo(that.Qup.getWohnkanton());
 		} else {
-			//cmp = this.Ssl.getSitz() - that.getSsl().getSitz();
 			cmp = this.Ssl.getWohnkanton().compareTo(that.Ssl.getWohnkanton());
 		}
 

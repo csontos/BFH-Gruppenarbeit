@@ -27,6 +27,38 @@ public class SSL implements Comparable{
 		Sitz = sitz;
 	}
 
+	public int getID() {
+		return ID;
+	}
+
+	public int getSitz() {
+		return Sitz;
+	}
+	
+	public String getWohnkanton() {
+		Wohnkanton = "";
+		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
+			if (QuellenSteuer.getGems().get(i).getBfs() == Sitz) {
+				Wohnkanton = QuellenSteuer.getGems().get(i).getKanton();
+			}
+		}
+		return Wohnkanton;
+	}
+	
+	public String getGemeindeName() {
+		Wohngemeinde = "";
+		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
+			if (QuellenSteuer.getGems().get(i).getBfs() == Sitz) {
+				Wohngemeinde = QuellenSteuer.getGems().get(i).getGemeindeName();
+			}
+		}
+		return Wohngemeinde;
+	}
+	
+	public String getFirmenname(){
+		return this.Firmenname;
+	}
+	
 	public static SSL getSSL( List<String> values ) {  
 		int NewID = 0;
 		String Name;
@@ -69,7 +101,6 @@ public class SSL implements Comparable{
 			
 			return s1.ID - s2.ID;
 		}
-
 	}
 	
 	   static class SSLkComp implements Comparator {
@@ -89,38 +120,6 @@ public class SSL implements Comparable{
 				return 0;
 			}
 	   }
-	
-	public int getID() {
-		return ID;
-	}
-
-	public int getSitz() {
-		return Sitz;
-	}
-	
-	public String getWohnkanton() {
-		Wohnkanton = "";
-		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
-			if (QuellenSteuer.getGems().get(i).getBfs() == Sitz) {
-				Wohnkanton = QuellenSteuer.getGems().get(i).getKanton();
-			}
-		}
-		return Wohnkanton;
-	}
-	
-	public String getGemeindeName() {
-		Wohngemeinde = "";
-		for (int i = 0; i < QuellenSteuer.getGems().size(); i++) {
-			if (QuellenSteuer.getGems().get(i).getBfs() == Sitz) {
-				Wohngemeinde = QuellenSteuer.getGems().get(i).getGemeindeName();
-			}
-		}
-		return Wohngemeinde;
-	}
-	
-	public String getFirmenname(){
-		return this.Firmenname;
-	}
 
 	private static String format() {
 		      return "Erwartetes Format:\n"+ DISCRIMINATOR + ":" + " ID; Name; Sitz";
