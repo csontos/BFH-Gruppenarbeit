@@ -115,31 +115,32 @@ public class ABR implements Comparable{
 	}
 
 	public String toString() {
-		return ID + "; " + Bruttolohn + "; " + Ssl.getFirmenname() + "; " + Ssl.getWohnkanton() + "; " + Jahr + "; " + Monat;
+		return ID + "; " + Bruttolohn + "; " + Ssl.getFirmenname() + "; Gemeinde SSL - " + Ssl.getGemeindeName() + " (" + Ssl.getSitz() + "); QUP Gemeinde - " + Qup.getGemeindeName() + " (" + Qup.getWohnort() + ")" + "; ist Ansässig- " + Qup.isAnsaessig() + "; " + Jahr + "; " + Monat;
 	}
 
 	public int compareTo(Object o) {
-		ABR that = (ABR) o;
+		ABR that = (ABR)o;
 		/*
 		 * Anzeige aller Abrechnungen. Sortierung nach steuerlich relevantem
 		 * Sitz vergleich wohnsaessig
 		 */
-		//cmp = this.Qup.getWohnort() - that.getQup().getWohnort();
-		int cmp;
-		boolean tmp1 = this.Qup.isAnsaessig();
-		boolean tmp2 = that.Qup.isAnsaessig();
-
-		if (tmp1 == true && tmp2 == true) {	
-			cmp = this.Qup.getWohnkanton().compareTo(that.Qup.getWohnkanton());
-		} else if (tmp1 == true && tmp2 == false) {
-			cmp = this.Qup.getWohnkanton().compareTo(that.Ssl.getWohnkanton());
-		} else if ( tmp1 == false && tmp2 == true) {
-			cmp = this.Ssl.getWohnkanton().compareTo(that.Qup.getWohnkanton());
-		} else {
-			cmp = this.Ssl.getWohnkanton().compareTo(that.Ssl.getWohnkanton());
+		
+		int thisSitz;
+		int thatSitz;
+		
+		if(this.Qup.isAnsaessig()){
+			thisSitz = this.Qup.getWohnort();
+		}else{
+			thisSitz = this.Ssl.getSitz();
+		}
+		
+		if(that.Qup.isAnsaessig()){
+			thatSitz = that.Qup.getWohnort();
+		}else{
+			thatSitz = that.Ssl.getSitz();
 		}
 
-		return cmp;
+		return thisSitz - thatSitz;
 	}
 
 	private static String format() {

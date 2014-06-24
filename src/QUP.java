@@ -65,6 +65,16 @@ public class QUP implements Comparable {
 	public String getName() {
 		return Name;
 	}
+	
+	public String getGemeindeName() {
+		String Wohngemeinde = "";
+		for (Gemeinde g: QuellenSteuer.getGems()) {
+			if (g.getBfs() == Wohnort) {
+				Wohngemeinde = g.getGemeindeName();
+			}
+		}
+		return Wohngemeinde;
+	}
 
 	public static QUP getQUP(List<String> values) {
 		int NewID;
